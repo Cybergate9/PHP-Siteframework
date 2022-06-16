@@ -11,10 +11,24 @@ if(!array_key_exists('showdatemodified',$SF_commands))
 
 
 <!-- SF_Command:content:ends -->
+
 <div id="SF_footerarea" class="SF_footerarea" class="card">
+
 <hr size= "1" style="border-bottom: 0px; margin: 5px 0px 0px 0px;"/>
-<?php SF_GenerateBreadCrumbLine(); ?><br/>
-<p class="SF_footer_text"><?php echo $SF_sitetitle;?> running on <a href="https://github.com/Cybergate9/phpSiteFramework">phpSiteFramework</a></p>
+
+
+
+<?php 
+
+SF_GenerateBreadCrumbLine("you are at :",">",1); 
+
+?>
+
+<p class="SF_footer_text">
+( <?php echo $SF_sitetitle; ?>
+ running on <a href="https://github.com/Cybergate9/PHP-Siteframework"> PHP Siteframework</a> )
+</p>
+
 </div> <!-- end of SF_footerarea -->
 
 </body>

@@ -81,19 +81,20 @@ strong, b {
 	font-size: .7rem;
 	font-family: sans-serif;
 }
-.SF_content_footertext, .SF_content_footertext a:link, .SF_content_footertext a:visited {
-
+.SF_content_footertext {
+	
 	text-align: right;
 	margin: 5px 0px 0px 0px;
+  font-size: .75rem !important;
 }
 
 
 
 /***** SF styles for breadcrumb line*/
 .SF_breadcrumbarea {
-	margin: 0px 0px 0px 0px;
+	margin: 5px 0px 5px 0px;
 	font-family: sans-serif;
-	font-size: .7rem;
+	font-size: .8rem;
 }
 .SF_breadcrumb_line {
 	margin: 0px 0px 0px 0px;
@@ -186,14 +187,17 @@ strong, b {
 
 
 /***** SF styles for footer area*/
-.SF_footerarea {
+/*.SF_footerarea {
 	height: 800px;
 }
+*/
 .SF_footer_text {
 	font-family: sans-serif;
-	font-size: .7rem;
+	font-size: .8rem;
 	margin: 0px 0px 0px 0px;
 }
+
+
 
 /***** SF styles for site map */
 .SF_map_level_1, .SF_map_level_1 a:link, .SF_map_level_1 a:visited {

@@ -21,7 +21,7 @@ $SF_sitewebpath='/sf-dist/';							   	// leading and trailing slashes depending
 
 $SF_contentpreprocessor=true;
 
-$SF_sitetitle='Cybergate9.Net';
+$SF_sitetitle='SF Site Title';
 
 $SF_defaultindexfile='index.html';
 
