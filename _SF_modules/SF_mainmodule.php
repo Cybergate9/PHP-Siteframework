@@ -15,9 +15,6 @@
 *
 * 4) SF_config_menu.csv (csv text file) for menu configuration data
 * 
-* TODO
-* 
-*   1. decide how to incorporate Parsedown via config, and/or checks etc.
 *
 * CHANGE HISTORY
 * 
