@@ -1,0 +1,254 @@
+
+
+html { font-size: 100%; }
+
+.card {
+  /* background-color: dodgerblue;
+  color: white;*/
+  padding: 0.5rem;
+  height: auto;
+}
+
+.cards {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.border {
+	border:1px solid black;
+}
+
+
+
+a:link {
+}
+a:visited {
+}
+a:active {
+}
+a:hover {
+/*hover doesn't work in nn4*/
+}
+
+h1 {
+	font-family: sans-serif;
+	font-weight: bold;
+}
+h2 { 
+	font-family: sans-serif;
+	font-weight: bold;
+}
+h3 {
+
+	font-weight: bold;
+}
+h4 {
+
+	font-weight: bold;
+}
+pre {
+	font-family: monospace;
+}
+strong, b {
+	font-weight: bold;
+}
+/***** SF divs/styles for header area */
+.SF_headerarea {
+	margin: -8px 0px 0px 0px;
+	font-family:  sans-serif;
+
+}
+.SF_header_heading {
+	font-weight: bold;
+	margin: 5px 0px 0px 0px;
+	vertical-align: middle;
+	font-size: 1.5em;
+}
+.SF_header_optionstext , .SF_header_optionstext a:link, .SF_header_optionstext a:visited {
+  font-size: .75rem;
+	text-align: right;
+	margin: 0px 0px 0px 0px;
+}
+
+
+
+/***** SF styles for content area*/
+.SF_content_headertext , .SF_content_headertext a:link, .SF_content_headertext a:visited {
+	text-align: right;
+	margin: 0px 0px -1px 0px;
+	font-size: .7rem;
+	font-family: sans-serif;
+}
+.SF_content_footertext, .SF_content_footertext a:link, .SF_content_footertext a:visited {
+
+	text-align: right;
+	margin: 5px 0px 0px 0px;
+}
+
+
+
+/***** SF styles for breadcrumb line*/
+.SF_breadcrumbarea {
+	margin: 0px 0px 0px 0px;
+	font-family: sans-serif;
+	font-size: .7rem;
+}
+.SF_breadcrumb_line {
+	margin: 0px 0px 0px 0px;
+}
+.SF_breadcrumb_title {
+	margin: 0px 0px 0px 0px;
+}
+.SF_breadcrumb_item, .SF_breadcrumb_item a:link, .SF_breadcrumb_item a:visited {
+	margin: 0px 0px 0px 1px;
+	color: #449944;
+	text-decoration: none;
+}
+.SF_breadcrumb_item a:hover {
+	color: #0000FF;
+}
+
+
+
+/***** SF styles for menus */
+.SF_menuarea {
+	margin: 10px 0px 0px 10px;
+	font-family: sans-serif;
+	font-size: .8rem;
+
+}
+
+.SF_menu_level_1  {
+	display: inline;
+}
+.SF_menu_level_1 a:link, .SF_menu_level_1 a:visited {
+	color: #000000;
+	margin: 0px 0px 0px 0px;
+	padding: 5px 5px 5px 5px;
+	text-decoration: none;
+	display:  inline;
+	border: 1px solid black;
+}
+
+.SF_menu_level_1_highlight {
+	color: #FF0000;
+	margin: 0px 0px 0px 0px;
+	text-decoration: none;
+	display:  inline;
+	border: 1px solid black;
+	padding: 5px 5px 5px 5px;
+}
+.SF_menu_level_1_highlight a:link, .SF_menu_level_1_highlight a:visited {
+	color: #FF0000;
+	margin: 0px 0px 0px 0px;
+	text-decoration: none;
+	display:  inline;
+	padding: 5px 5px 5px 5px;
+}
+.SF_menu_level_1 a:hover, .SF_menu_level_1_highlight a:hover {
+	margin: 0px 0px 0px 0px;
+	color: #0000FF;
+	display:  inline;
+	padding: 5px 5px 5px 5px;
+}
+
+
+.SF_menu_level_2, .SF_menu_level_2 a:link, .SF_menu_level_2 a:visited {
+	color: #449944;
+	margin: 3px 0px 2px 15px;
+	text-indent: -15px;
+	text-decoration: none;
+}
+.SF_menu_level_2_highlight {
+	color: #FF0000;
+	margin: 3px 0px 2px 15px;
+	text-indent: -15px;
+	text-decoration: none;
+}
+.SF_menu_level_2_highlight a:link, .SF_menu_level_2_highlight a:visited {
+	color: #FF0000;
+	margin: 3px 0px 2px 15px;
+	text-indent: -15px;
+	text-decoration: none;
+}
+.SF_menu_level_2 a:hover,  .SF_menu_level_2_highlight a:hover {
+	color: #0000FF;
+}
+.SF_offsite_link, .SF_offsite_link a:link, .SF_offsite_link a:visited {
+	color: #999999;
+}
+.SF_offsite_link a:hover {
+	color: #0000FF;
+}
+
+
+
+/***** SF styles for footer area*/
+.SF_footerarea {
+	height: 800px;
+}
+.SF_footer_text {
+	font-family: sans-serif;
+	font-size: .7rem;
+	margin: 0px 0px 0px 0px;
+}
+
+/***** SF styles for site map */
+.SF_map_level_1, .SF_map_level_1 a:link, .SF_map_level_1 a:visited {
+	font-size: 11pt;
+	color: #000000;
+	font-weight: bold;
+	margin: 1px 0px 1px 20px;
+
+}
+.SF_map_level_2, .SF_map_level_2 a:link, .SF_map_level_2 a:visited {
+	font-size: 10pt;
+	color: #000000;
+	margin: 1px 0px 1px 35px;
+}
+.SF_map_level_3, .SF_map_level_3 a:link, .SF_map_level_3 a:visited {
+	font-size: 9pt;
+	color: #000000;
+	margin: 1px 0px 1px 50px;
+}
+.SF_map_level_4, .SF_map_level_4 a:link, .SF_map_level_4 a:visited {
+	font-size: 8pt;
+	color: #000000;
+	margin: 1px 0px 1px 65px;
+}
+.SF_map_level_5, .SF_map_level_5 a:link, .SF_map_level_5 a:visited {
+	font-size: 8pt;
+	color: #000000;
+	margin: 1px 0px 1px 80px;
+}
+.SF_map_level_6, .SF_map_level_6 a:link, .SF_map_level_6 a:visited {
+	font-size: 8pt;
+	color: #000000;
+	margin: 1px 0px 1px 95px;
+}
+
+
+/***** SF Styles for errors, debugging, timing etc */
+.SF_debug_text {
+	font-family: sans-serif;
+	font-size: 7pt;
+	color: #000000;
+	margin: 0px 0px 0px 0px;
+}
+.SF_error_text {
+	font-family: sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	color: #FF0000;
+	margin: 0px 0px 0px 0px;
+}
+.SF_timing_text {
+	font-family: sans-serif;
+	font-size: 7pt;
+	color: #990000;
+	margin: 0px 0px 0px 0px;
+	text-align: right;
+}
+ 
