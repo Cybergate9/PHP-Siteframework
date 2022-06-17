@@ -1,15 +1,15 @@
 <?php
 /**
-* This file is Siteframework's global auto prepend file
+* This file is Site Framework's global auto prepend file
 *
 * This is what 'kicks it all off' for any given page
 *
-* @package PHP Siteframework
-* @author Shaun Osborne
-* @link https://github.com/Cybergate9/PHP-Siteframework
-* @license https://github.com/Cybergate9/PHP-Siteframework/blob/main/LICENSE
-* @copyright Shaun Osborne, 2005-present
+* @package SiteFramework
+* @author Shaun Osborne (smo30@cam.ac.uk)
+* @link http://www.fitzmuseum.cam.ac.uk/projects/phpsiteframework/
 * @access public 
+* @copyright The Fitzwilliam Museum, University of Cambridge, UK
+* @license http://www.fitzmuseum.cam.ac.uk/projects/phpsiteframework/licences.html GPL
 */
 
 /**
@@ -178,9 +178,9 @@ if(array_key_exists('contentpp',$dirconfigarray)  and !strcmp("yes",$dirconfigar
     $SF_commands[$command[1]]=$command[2];
   }
 
-
+  // process YAML front matter if any 
   $parts = preg_split('/[\n]*[-]{3}[\n]/', $contents, 3, PREG_SPLIT_NO_EMPTY);
-  // process YAML front matter from *.md files if any 
+  //print_r($contents);
   if(count($parts) > 1)
   {
     $yaml = simpleyaml(explode("\n",$parts[0]));
@@ -189,8 +189,8 @@ if(array_key_exists('contentpp',$dirconfigarray)  and !strcmp("yes",$dirconfigar
       $SF_commands[$key]=$value;
     }
   }
-}
 
+}
 /* if we got sf_function=nosf or a <!-- SF_Command:nosf:anything --> then do that, end the cache and exit*/
 if(array_key_exists('nosf',$SF_commands) or array_key_exists('nosf',$SF_qc))
 {
@@ -244,7 +244,7 @@ if($SF_caching==true)
 apexit();
 
 /**
-* apexit - Auto Prepend exit() function
+* apexit - Auto Prepend Exit function
 *
 * Exit module which can display time, cache state etc
 *

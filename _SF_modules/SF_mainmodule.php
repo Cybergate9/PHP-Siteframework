@@ -1093,7 +1093,7 @@ return;
 *
 * @param string URL you want to get
 */
-function SF_GeneratefromMarkdownURL($url)
+function SF_GeneratefromMarkdownURL($url,$title=false,$summaryonly=false)
 /****************************************************************************/
 {
 global $SF_sitedrivepath;
@@ -1116,16 +1116,32 @@ if(count($parts) > 1)
     foreach($yaml as $key=>$value)
     {
       $SF_commands[$key]=$value;
+      //var_dump($SF_commands);
     }
     $md = $parts[1];
   }
 else
   {
-   $md = $part[0];
+   $md = $parts[0];
+  }
+
+if($title and $SF_commands['title'])
+  {
+  echo "<h1>".$SF_commands['title']."</h1>";
   }
 
 $Parsedown = new Parsedown();
-echo $Parsedown->text($md);
+if($summaryonly >=1)
+  {
+   $snippet = substr($Parsedown->text($md),0,$summaryonly);
+   $snippet = preg_replace("/<a/","",$snippet);
+   echo $snippet;
+   echo '<p>[<a href="'.$_SERVER['PHP_SELF'].'?p='.substr($url,5,strlen($url)).'"">Read more..</a>]</p>';
+  }
+else
+  {
+  echo $Parsedown->text($md);
+  }
 
 return true;
 }
