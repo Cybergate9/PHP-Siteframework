@@ -18,10 +18,12 @@
 *
 * CHANGE HISTORY
 * 
-* 1.81    (17Jun2022)   decided on parsedown config, composer install into _SF_modules, configure via mainconfig.php
+* 
+* 1.82    (17Jun2022)   decided on parsedown config, composer install into _SF_modules, configure via mainconfig.php
 *                      decided to split mainconfig.php in two adding a localconfig.php as in practice over-writing mainconfig.php on remote 
 *                         installs is a pain
 *                      tidies up meta, header, footer and accessibility pages including accesskeys
+*                      SF_GeneratefromMarkdownURL() can do short summaries now as well as full output
 * 
 * 1.7    (15Jun2022)  fixed wrong references in, and added meta via SF_commands values to dublin core defaultmetadata.html
 *                     added SF_GeneratefromMarkdownURL() and simpleyaml() as first implementation for Markdown content
@@ -138,7 +140,7 @@
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/main/LICENSE
 * @copyright Shaun Osborne, 2005-present
 * @access public 
-* @version 1.81 (2022-06-17)
+* @version 1.82 (2022-06-18)
 */
 
 /**
@@ -150,7 +152,7 @@ require_once('SF_mainconfig.php');
 /**
 * Siteframework (as a whole) version number
 */
-$sfversion='1.81 (2022-06-17)';
+$sfversion='1.82 (2022-06-18)';
 #error_reporting(1); /* only report errors */
 
 /****************************************************************************
@@ -1133,8 +1135,10 @@ if($title and $SF_commands['title'])
 $Parsedown = new Parsedown();
 if($summaryonly >=1)
   {
-   $snippet = substr($Parsedown->text($md),0,$summaryonly);
-   $snippet = preg_replace("/<a/","",$snippet);
+   $snippet = $Parsedown->text($md);
+   $snippet = preg_replace("/\<a.*\<\/a\>/","",$snippet); // get rid of image links in summaries
+   $snippet = preg_replace("/\<img.*\/\>/","",$snippet);  // get rid of hrefs in summaries
+   $snippet = substr($snippet,0,$summaryonly);
    echo $snippet;
    echo '<p>[<a href="'.$_SERVER['PHP_SELF'].'?p='.substr($url,5,strlen($url)).'"">Read more..</a>]</p>';
   }

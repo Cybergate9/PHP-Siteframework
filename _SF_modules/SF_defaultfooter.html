@@ -1,7 +1,14 @@
 
 <?php
-if(!array_key_exists('showdatemodified',$SF_commands))
-{echo '<p class="SF_content_footertext">Page updated: '.SF_GetPageModifiedDate('','dMY').'</p>';}
+
+if(array_key_exists('date',$SF_commands))
+  {
+    echo '<p class="SF_content_footertext">Page updated: '.$SF_commands['date'].'</p>';
+  }
+else
+  {
+   echo '<p class="SF_content_footertext">Page updated: '.SF_GetPageModifiedDate('','dMY').'</p>';
+  }
 ?>
 
 </div> <!-- end of SF_contentarea -->
