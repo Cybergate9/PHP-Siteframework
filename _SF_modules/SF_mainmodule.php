@@ -19,11 +19,12 @@
 * CHANGE HISTORY
 * 
 * 
-* 1.82    (17Jun2022)   decided on parsedown config, composer install into _SF_modules, configure via mainconfig.php
+* 1.83    (19Jun2022)   decided on parsedown config, composer install into _SF_modules, configure via mainconfig.php
 *                      decided to split mainconfig.php in two adding a localconfig.php as in practice over-writing mainconfig.php on remote 
 *                         installs is a pain
 *                      tidies up meta, header, footer and accessibility pages including accesskeys
 *                      SF_GeneratefromMarkdownURL() can do short summaries now as well as full output
+*                      SF_GenerateTextOnlyHTML($url,$output=true) added check on file_get_contents to catch allow_url_fopen = false in servfer config
 * 
 * 1.7    (15Jun2022)  fixed wrong references in, and added meta via SF_commands values to dublin core defaultmetadata.html
 *                     added SF_GeneratefromMarkdownURL() and simpleyaml() as first implementation for Markdown content
@@ -140,7 +141,7 @@
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/main/LICENSE
 * @copyright Shaun Osborne, 2005-present
 * @access public 
-* @version 1.82 (2022-06-18)
+* @version 1.83 (2022-06-18)
 */
 
 /**
@@ -152,7 +153,7 @@ require_once('SF_mainconfig.php');
 /**
 * Siteframework (as a whole) version number
 */
-$sfversion='1.82 (2022-06-18)';
+$sfversion='1.83 (2022-06-19)';
 #error_reporting(1); /* only report errors */
 
 /****************************************************************************
@@ -1593,7 +1594,15 @@ function SF_GenerateTextOnlyHTML($url,$output=true)
                    "\nImage[no alt text]<br/>\n"
                    );
 
-  $resulthtml=preg_replace($search,$replace,file_get_contents($url));
+ if(!$contents = @file_get_contents($url))
+ {
+    $resulthtml = 'ERROR: URL File Open not allowed (allow_url_fopen=0)';
+    if($output)
+      {echo $resulthtml;}
+    else
+      {return $resulthtml;}
+  }
+  $resulthtml=preg_replace($search,$replace,$contents);
   /* this is all a bit of a kludge but put a CSS back into the html */
   $resulthtml=preg_replace("/<head>/",'<head><link href="'.$defaulttextonlycssfile.'" rel="stylesheet" title="SF_CSS" type="text/css">',$resulthtml);
   $resulthtml=rewriteurlsfortextonly($resulthtml);
