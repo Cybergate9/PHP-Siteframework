@@ -33,11 +33,22 @@
 */
 $sfdebug=0;
 
+
 /* these are only required in this module */
 $SF_starttime = microtimefloat();
 $SF_qc=array(); /*holds values for any query strings*/
 
-require_once('SF_cacheconfig.php');
+require_once('SF_localconfig.php');
+if($SF_caching == true)
+  {
+  require_once('SF_cache.php');
+  }
+
+if(false){  // hard set debug 
+  print("SF_autoprepend.php<br/>");
+  echo get_include_path();  
+  echo("<br/>SF_Caching=[" .$SF_caching. "]<br/>");
+}
 
 if(array_key_exists('QUERY_STRING',$_SERVER) and $_SERVER['QUERY_STRING'])
 {
@@ -76,60 +87,35 @@ if(array_key_exists('QUERY_STRING',$_SERVER) and $_SERVER['QUERY_STRING'])
          if($sfdebug != -1)
            {
              if(array_key_exists('1',$qscomponents))
-             {
-             $sfdebug=intval($qscomponents[1]);
-             $SF_caching=false;
-             $SF_qc['time']='y';
-             }
+               {
+               $sfdebug=intval($qscomponents[1]);
+               $SF_caching=0;  
+               $SF_qc['time']='y';
+               }
            }
        }
   }
 }
 
+
+
 /* first if we are caching figure out if we should exclude */
-if($SF_caching==true)
-{
-  foreach($SF_cacheexcludes as $compare)
+if($SF_caching == true)
   {
-    if(preg_match("@$compare@",$_SERVER['REQUEST_URI']))
-      {
-      $SF_caching=false;
-      $SF_fromcache='CacheExcluded';
-      }
+  $SF_fromcache = SF_cachestart();
   }
-}
 else
 {
-$SF_fromcache='CachingOff';
+  $SF_fromcache = 'notcaching';
 }
 
+if($sfdebug >=2)
+  {
+    echo("<br/>SF_Caching=[" .$SF_caching. "], SF_framcache=[".$SF_fromcache."]<br/>");
+  }
+
 /* if caching is still on (config or excludes may have turned it off)- check cache for this, if not start caching it */
-if($SF_caching==true)
-{
-  $SF_fromcache='NotCached';
-  require_once('Cache/Lite/Output.php');
-  /* cleanse the URI for a cachekey which does not generate unique cache files for sf_f options sf_f=time or sf_f=force or debug=x */
-  $cachekey = preg_replace("@[\?\&]sf_f=time@",'',$_SERVER['REQUEST_URI']);
-  $cachekey = preg_replace("@[\?\&]sf_f=force@",'',$cachekey);
-  $cachekey = preg_replace("@[\?\&]debug=[0-9]@",'',$cachekey);
-  
-  $cache = new Cache_Lite_Output($SF_cacheoptions);
-  if($SF_forcecache==false)
-    {
-    if($data=$cache->get($cachekey))
-      {
-      echo $data;
-      $SF_fromcache='FromCache';
-      apexit();
-      }
-    }
-  else
-   {
-   $SF_fromcache='CacheUpdateForced';
-   $cache->remove($cachekey);
-   }  
-  $cache->start($cachekey);
-}
+
 
 /* ok we're not getting it from the cache so do it normally */
 require_once('SF_mainmodule.php');
@@ -137,20 +123,22 @@ require_once('SF_mainmodule.php');
 
 /* if we got sf_function=print then change header, footer and css */
 if(array_key_exists('print',$SF_qc))
-{
-$dirconfigarray['headerfile']=$defaultprintheaderfile;
-$dirconfigarray['footerfile']=$defaultprintfooterfile;
-$dirconfigarray['cssfile']=$defaultprintcssfile;
-}
+  {
+  $dirconfigarray['headerfile']=$defaultprintheaderfile;
+  $dirconfigarray['footerfile']=$defaultprintfooterfile;
+  $dirconfigarray['cssfile']=$defaultprintcssfile;
+  }
 /* if we got sf_function=textonly then do that, end the cache and exit*/
 if(array_key_exists('textonly',$SF_qc))
-{
-SF_GenerateTextOnlyHTML('http://'.$_SERVER['HTTP_HOST'].preg_replace("/[\?|\&]sf_f.*=t.*$/","",$_SERVER['REQUEST_URI']));
-/* end caching capture if its turned on */
-if($SF_caching==true)
-  {$cache->end();}
-apexit();
-}
+  {
+  SF_GenerateTextOnlyHTML('http://'.$_SERVER['HTTP_HOST'].preg_replace("/[\?|\&]sf_f.*=t.*$/","",$_SERVER['REQUEST_URI']));
+  /* end caching capture if its turned on */
+  if($SF_caching==true)
+    {
+      $SF_fromcache = SF_cacheend();
+      apexit();
+    }
+  }
 
 /**
 * this if block does pre-processing of content looking for SF_Commands if they exist
@@ -168,7 +156,9 @@ if(array_key_exists('contentpp',$dirconfigarray)  and !strcmp("yes",$dirconfigar
   if($sfdebug >= 1){SF_DebugMsg($SF_modulesdrivepath.'SF_autopreprend.php: pre-processing file '.$SF_phpselfdrivepath);}  
   $contents=file_get_contents($SF_phpselfdrivepath);
   if(!$contents)
-  {SF_ErrorExit('SF_autoprepend.php','Failed to open "content" file "'.$SF_selfdrivepath.'" for pre-processing');}
+  {
+    SF_ErrorExit('SF_autoprepend.php','Failed to open "content" file "'.$SF_selfdrivepath.'" for pre-processing');
+  }
   
   preg_match_all("@<\!-- SF_Command(.*?) -->@i",$contents,$matches);
   #print_r($matches);
@@ -182,24 +172,26 @@ if(array_key_exists('contentpp',$dirconfigarray)  and !strcmp("yes",$dirconfigar
   $parts = preg_split('/[\n]*[-]{3}[\n]/', $contents, 3, PREG_SPLIT_NO_EMPTY);
   //print_r($contents);
   if(count($parts) > 1)
-  {
-    $yaml = simpleyaml(explode("\n",$parts[0]));
-    foreach($yaml as $key=>$value)
     {
-      $SF_commands[$key]=$value;
+      $yaml = simpleyaml(explode("\n",$parts[0]));
+      foreach($yaml as $key=>$value)
+        {
+          $SF_commands[$key]=$value;
+        }
     }
-  }
 
 }
 /* if we got sf_function=nosf or a <!-- SF_Command:nosf:anything --> then do that, end the cache and exit*/
 if(array_key_exists('nosf',$SF_commands) or array_key_exists('nosf',$SF_qc))
 {
 echo file_get_contents($SF_phpselfdrivepath);
+/* end caching capture if its turned on */
 if($SF_caching==true)
-  {$cache->end();}
- apexit();
+  {
+    $SF_fromcache =SF_cacheend();
+    apexit();
+  }
 }
-
 /**
 * This gets the configured header file (config'd via the current 'config_dir' file)
 */
@@ -236,12 +228,16 @@ if(!preg_match('@none$@i',$dirconfigarray['headerfile']))
   if(!$ret)
   {SF_ErrorExit('SF_autoprepend.php','Failed to open "footer" file "'.$dirconfigarray['footerfile'].'"');}
 }
+
 /* end caching capture if its turned on */
 if($SF_caching==true)
-  {$cache->end();}
+  {
+    $SF_fromcache = SF_cacheend();
+    apexit();
+  }
 
 
-apexit();
+
 
 /**
 * apexit - Auto Prepend Exit function

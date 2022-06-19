@@ -18,10 +18,14 @@
 *
 * CHANGE HISTORY
 * 
-* 
-* 1.83    (19Jun2022)   decided on parsedown config, composer install into _SF_modules, configure via mainconfig.php
+* 1.9     (19Jun2022)  clean implementation of pure php caching without Cache_Lite (cacheconfig.php removed and replaced with SF_cache.php)
+*                      functionality remains similar:
+*                      1) caching into single directory, or multiple subdirs (hash value > 0), 
+*                      2) timeouts in secs (3600 = 1 hour)
+*                      3) top level caching config in SF_localconfig.php, details in SF_cache.php
+* 1.83    (18Jun2022)  decided on parsedown config, composer install into _SF_modules, configure via mainconfig.php
 *                      decided to split mainconfig.php in two adding a localconfig.php as in practice over-writing mainconfig.php on remote 
-*                         installs is a pain
+*                      installs is a pain
 *                      tidies up meta, header, footer and accessibility pages including accesskeys
 *                      SF_GeneratefromMarkdownURL() can do short summaries now as well as full output
 *                      SF_GenerateTextOnlyHTML($url,$output=true) added check on file_get_contents to catch allow_url_fopen = false in servfer config
@@ -141,7 +145,7 @@
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/main/LICENSE
 * @copyright Shaun Osborne, 2005-present
 * @access public 
-* @version 1.83 (2022-06-18)
+* @version 1.9 (2022-06-19)
 */
 
 /**
@@ -150,10 +154,11 @@
 require_once('SF_localconfig.php');
 require_once('SF_mainconfig.php');
 
+
 /**
 * Siteframework (as a whole) version number
 */
-$sfversion='1.83 (2022-06-19)';
+$sfversion='1.9 (2022-06-19)';
 #error_reporting(1); /* only report errors */
 
 /****************************************************************************

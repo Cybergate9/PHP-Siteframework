@@ -1,29 +1,35 @@
 <?php
 /**
-* This file is Siteframework's local (host) configuration file
+* This file is Site Framework's global configuration file
 *
-* @package PHP Siteframework
-* @author Shaun Osborne
-* @link https://github.com/Cybergate9/PHP-Siteframework
-* @license https://github.com/Cybergate9/PHP-Siteframework/blob/main/LICENSE
-* @copyright Shaun Osborne, 2005-present
+* Edit at least $SF_sitewebpath
+*
+* @package SiteFramework
+* @author Shaun Osborne (smo30@cam.ac.uk)
+* @link http://www.fitzmuseum.cam.ac.uk/projects/phpsiteframework/
+* @license http://www.fitzmuseum.cam.ac.uk/projects/phpsiteframework/licences.html GPL
 * @access public 
+* @copyright The Fitzwilliam Museum, University of Cambridge, UK
 */
         
 
 /****************************************************************************
-Siteframework (SF) Local Configuration Settings
-note: leading and trailing slashes SHOULD be used were annoted (just / for root is OK though)
-check these are ok by browsing to /sfinstalldir/_SF_modules/admin/index.html
+Site Framework (SF) Local Configuration Settings
+note: leading and trailing slashes SHOULD be used  (just / for root is OK though)
 */
-$SF_documentroot='/Users/Shaun/dev/httpd/public_html';		// leading and trailing slashes depending on filesystem
-$SF_sitewebpath='/sf-dist/';							   	// leading and trailing slashes depending on filesystem (just / for root is OK though)
+$SF_sitewebpath='/cg9/';
 
+/* optionals */
+$SF_sitetitle='Cybergate9.Net';
 $SF_contentpreprocessor=true;
-
-$SF_sitetitle='SF Site Title';
-
+$SF_documentroot='/Users/Shaun/dev/httpd/public_html';
 $SF_defaultindexfile='index.html';
 
+/* MUST config these two if caching turned on
+   SF_caching = turn caching on (1/true) or off (0/false) 
+   SF_cachedir = set directory (mush be read/write apache obviously
+*/
+$SF_caching=1;
+$SF_cachedir = '/Users/Shaun/dev/httpd/temp/'; // with trailing slash
 
 /* end of Local Configuration Settings */
