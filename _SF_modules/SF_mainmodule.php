@@ -1101,7 +1101,7 @@ return;
 *
 * @param string URL you want to get
 */
-function SF_GeneratefromMarkdownURL($url,$title=false,$summaryonly=false)
+function SF_GeneratefromMarkdownURL($url,$title=false,$summaryonly=false,$returnreadmorelink=false)
 /****************************************************************************/
 {
 global $SF_sitedrivepath;
@@ -1118,6 +1118,7 @@ if(!$contents)
 
 $parts = preg_split('/[\n]*[-]{3}[\n]/', $contents, 3, PREG_SPLIT_NO_EMPTY);
 
+$SF_commands['refurl']="";
 if(count($parts) > 1)
   {
     $yaml = simpleyaml(explode("\n",$parts[0]));
@@ -1146,14 +1147,21 @@ if($summaryonly >=1)
    $snippet = preg_replace("/\<img.*\/\>/","",$snippet);  // get rid of hrefs in summaries
    $snippet = substr($snippet,0,$summaryonly);
    echo $snippet;
-   echo '<p>[<a href="'.$_SERVER['PHP_SELF'].'?p='.substr($url,5,strlen($url)).'"">Read more..</a>]</p>';
+   if(!$returnreadmorelink){
+       echo '<p>[<a href="'.$_SERVER['PHP_SELF'].'?p='.substr($url,5,strlen($url)).'"">Read more..</a>]</p>';
+   }
+   else
+   {
+    $SF_commands['readmorelink']='<p>[<a href="'.$_SERVER['PHP_SELF'].'?p='.substr($url,5,strlen($url)).'"">Read more..</a>]</p>';
+   }
+
   }
 else
   {
   echo $Parsedown->text($md);
   }
 
-return true;
+return $SF_commands;
 }
 
 /*
@@ -1165,7 +1173,12 @@ function simpleyaml($inarray)
 foreach($inarray as $key=>$value)
         {
         $item = explode(":",$value);
+
         $yaml[trim($item[0])]=trim($item[1]);
+        if(array_key_exists(2,$item))
+          {
+          $yaml[trim($item[0])]=trim($item[1]).":".trim($item[2]);
+          }
         }
 
 return $yaml;

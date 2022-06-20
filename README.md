@@ -8,6 +8,8 @@ Version 2 adds:
 
 * ability to deliver markdown content including use of front matter (requires Parsedown)
 
+* Cache-Lite replaced by internal pure php caching
+
 * `_SF_modules/admin/index.html` shows config sanity checks
 
 * mainconfig and (newly created) localconfig separate some concerns making it easier to update mainconfig on remote host

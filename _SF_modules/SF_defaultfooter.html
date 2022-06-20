@@ -19,24 +19,16 @@ else
 
 <!-- SF_Command:content:ends -->
 
-<div id="SF_footerarea" class="SF_footerarea" class="card">
-
-<hr size= "1" style="border-bottom: 0px; margin: 5px 0px 0px 0px;"/>
 
 
+  <div class="SF_footerarea">
+  <hr class="border"/>
+  <?php SF_GenerateBreadCrumbLine("you are at :"," > ",1); ?>
+  <p class="SF_footer_text">
+  ( <?php echo $SF_sitetitle . 'running on <a href="https://github.com/Cybergate9/PHP-Siteframework"> PHP Siteframework</a>'; ?> )
+  </p>
+  </div> <!-- end of SF_footerarea -->
 
-<?php 
-
-SF_GenerateBreadCrumbLine("you are at :",">",1); 
-
-?>
-
-<p class="SF_footer_text">
-( <?php echo $SF_sitetitle; ?>
- running on <a href="https://github.com/Cybergate9/PHP-Siteframework"> PHP Siteframework</a> )
-</p>
-
-</div> <!-- end of SF_footerarea -->
 
 </body>
 </html>

@@ -6,8 +6,12 @@
   <title><?php echo SF_GetPageTitle(GPT_BREADCRUMB); ?></title>
   <?php
     /* to make CSS cascade/combine they must be titled the same */
-    echo "<link href=\"".SF_GetDefaultCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>";
-    echo "<link href=\"".SF_GetCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>"; 
+    echo "<link href=\"".SF_GetDefaultCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>\n";
+    echo "<link href=\"".SF_GetCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>\n"; 
+    echo '<meta name="og:description" content="Open the gate.. welcome to this dimension.." />'."\n";
+    echo '<meta name="og:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
+    echo '<meta name="og:image:url" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
+    echo '<meta name="twitter:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
   ?>
 </head>
 
@@ -24,11 +28,17 @@
     [<a href="<?php echo $SF_sitewebpath;?>accessibility.html">Accessibility</a>]&nbsp;&nbsp;
     [<a href="<?php echo $SF_sitewebpath;?>sitemap.html" accesskey="3" >SiteMap</a>]
     </p>
+    <div class="card">
+    <div style="display: block; float: left; padding-right: 15px;">
+      <img src="<?php echo $SF_sitewebpath;?>images/noderivs/jtbeastie.gif" alt="Logo" style="width:  9rem;"/>
+    </div>
     <div class="SF_header_heading">
-      <img src="<?php echo $SF_moduleswebpath;?>sflogo_sml.gif" alt="Logo" style="width:  3rem;"/>
+      
        <?php echo SF_GetPageTitle(GPT_SITE); ?></div>
+       <p>Open the gate.. welcome to this dimension..</p>
     </div>
     <?php SF_GenerateNavigationMenu(); ?>
+    </div>
 
 
 

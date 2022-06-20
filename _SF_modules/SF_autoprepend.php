@@ -233,10 +233,10 @@ if(!preg_match('@none$@i',$dirconfigarray['headerfile']))
 if($SF_caching==true)
   {
     $SF_fromcache = SF_cacheend();
-    apexit();
+
   }
 
-
+apexit();
 
 
 /**
