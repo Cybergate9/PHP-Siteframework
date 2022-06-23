@@ -132,12 +132,12 @@ if(array_key_exists('print',$SF_qc))
 if(array_key_exists('textonly',$SF_qc))
   {
   SF_GenerateTextOnlyHTML('http://'.$_SERVER['HTTP_HOST'].preg_replace("/[\?|\&]sf_f.*=t.*$/","",$_SERVER['REQUEST_URI']));
-  /* end caching capture if its turned on */
+  /* end caching capture if its turned on 
   if($SF_caching==true)
     {
-      $SF_fromcache = SF_cacheend();
+      $SF_fromcache = SF_cacheend();*/
       apexit();
-    }
+    
   }
 
 /**
@@ -157,7 +157,7 @@ if(array_key_exists('contentpp',$dirconfigarray)  and !strcmp("yes",$dirconfigar
   $contents=file_get_contents($SF_phpselfdrivepath);
   if(!$contents)
   {
-    SF_ErrorExit('SF_autoprepend.php','Failed to open "content" file "'.$SF_selfdrivepath.'" for pre-processing');
+    SF_ErrorExit('SF_autoprepend.php','Failed to open "content" file "'.$SF_phpselfdrivepath.'" for pre-processing');
   }
   
   preg_match_all("@<\!-- SF_Command(.*?) -->@i",$contents,$matches);
@@ -188,7 +188,7 @@ echo file_get_contents($SF_phpselfdrivepath);
 /* end caching capture if its turned on */
 if($SF_caching==true)
   {
-    $SF_fromcache =SF_cacheend();
+    $SF_fromcache=SF_cacheend();
     apexit();
   }
 }

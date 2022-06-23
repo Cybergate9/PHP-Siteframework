@@ -17,19 +17,19 @@
 Site Framework (SF) Local Configuration Settings
 note: leading and trailing slashes SHOULD be used  (just / for root is OK though)
 */
+$SF_documentroot='/Users/Shaun/dev/httpd/public_html';
 $SF_sitewebpath='/cg9/';
 
 /* optionals */
 $SF_sitetitle='Cybergate9.Net';
 $SF_contentpreprocessor=true;
-$SF_documentroot='/Users/Shaun/dev/httpd/public_html';
 $SF_defaultindexfile='index.html';
 
 /* MUST config these two if caching turned on
    SF_caching = turn caching on (1/true) or off (0/false) 
    SF_cachedir = set directory (mush be read/write apache obviously
 */
-$SF_caching=1;
+$SF_caching=0;
 $SF_cachedir = '/Users/Shaun/dev/httpd/temp/'; // with trailing slash
 
 /* end of Local Configuration Settings */

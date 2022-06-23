@@ -21,7 +21,6 @@ $SF_sitedrivepath=$SF_documentroot.$SF_sitewebpath;
 $SF_subsitewebpath=$SF_sitewebpath;
 $SF_subsitedrivepath=$SF_sitedrivepath;
 $SF_phpselfdrivepath=$SF_documentroot.$_SERVER['PHP_SELF'];
-$SF_phpselfpathdrivepath=$SF_documentroot.$_SERVER['PHP_SELF'];
 $SF_sitelogo=$SF_moduleswebpath.'images/sflogo_sml.jpg';
 
 

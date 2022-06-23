@@ -20,7 +20,7 @@
 * 
 * 1.9     (19Jun2022)  clean implementation of pure php caching without Cache_Lite (cacheconfig.php removed and replaced with SF_cache.php)
 *                      functionality remains similar:
-*                      1) caching into single directory, or multiple subdirs (hash value > 0), 
+*                      1) caching into single directory, or multiple subdirs (if hash value > 0, on 1 or 2 recommended), 
 *                      2) timeouts in secs (3600 = 1 hour)
 *                      3) top level caching config in SF_localconfig.php, details in SF_cache.php
 * 1.83    (18Jun2022)  decided on parsedown config, composer install into _SF_modules, configure via mainconfig.php
@@ -55,18 +55,18 @@
 *
 * 1.46   (17may2006) SF_GenerateEmailLink() added. SF_GenerateSiteMap() updated to be able to restrict levels to show
 * 
-* 1.45	 (15may2006) SF_autoprepend UPDATED can now use sf_function=nosf or <!-- SF_Command:nosf:anything --> 
+* 1.45   (15may2006) SF_autoprepend UPDATED can now use sf_function=nosf or <!-- SF_Command:nosf:anything --> 
 *                     (if content pp is on in directory) to turn off the framework for this file
 * 
 * 1.44  (14May2006) removed logic put in with V1.5 (_fallback etc) and built in proper fallback ability so logic now runs
-*					find exact match, find variation match (e.g. index.2.html), find previous dir match and keeping falling back on ddir's unless we hit 'root'
-*					so upshot is menu can be defined as /gallery/something/ and this will match
+*         find exact match, find variation match (e.g. index.2.html), find previous dir match and keeping falling back on ddir's unless we hit 'root'
+*         so upshot is menu can be defined as /gallery/something/ and this will match
 *
 *                   /gallery/something/anypage
 *
 *                   /gallery/something/dirone/anypage
 *
-*					          /gallery/something/dirone/dirtwo/anypage etc
+*                   /gallery/something/dirone/dirtwo/anypage etc
 *
 *
 * 1.43   (12May2006) SF_GenerateContentsFromURL() can now take into account if one calls in content via http from a framework 
@@ -620,7 +620,7 @@ return;
 * Ouput the HTML for the current menu
 * 
 * Use global array $currentmenuarray to ouput the currently selected menu set
-* as determined was by SF_LoadMenuData().
+* as was determined by SF_LoadMenuData().
 *
 * Menu block is surrounded by a <div id="SF_menuarea" class="SF_menuarea">
 * 
@@ -1001,7 +1001,7 @@ echo('</div>');
 *
 * Outputs CSS link, Error text supplied and does a hard exit
 *
-* @param string intented to identify who called the exit, file or function
+* @param string intended to identify who called the exit, file or function
 * @param string error message you want to output with the exit
 */
 function SF_ErrorExit($caller='nocaller', $msg='nomsg')
@@ -1100,18 +1100,24 @@ return;
 *
 *
 * @param string URL you want to get
+* @param output title as header1 true=yes, false=no
+* @param output only $summaryonly number of characters false=0 characters, 0=zero characters, any integer number of characters to output as summary
+* @param output a 'Read More' link false=no, true=yes
+* @param return value is contents of url, else return true;
 */
-function SF_GeneratefromMarkdownURL($url,$title=false,$summaryonly=false,$returnreadmorelink=false)
+function SF_GeneratefromMarkdownURL($url,$title=false,$summaryonly=false,$returnreadmorelink=false,$returncontents=false)
 /****************************************************************************/
 {
 global $SF_sitedrivepath;
+global $SF_modulesdrivepath;
+global $SF_moduleswebpath;
 global $SF_parsedownpath;
 global $SF_commands;
 require_once ($SF_parsedownpath);
 
 /* figure out if this is a http (get it) or fix the path up for getting off the local filesystem */
 //$url=sfnormaliseurl($url,'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
-
+$output ="";
 $contents=file_get_contents($url);
 if(!$contents)
   {return false;} 
@@ -1136,32 +1142,76 @@ else
 
 if($title and $SF_commands['title'])
   {
-  echo "<h1>".$SF_commands['title']."</h1>";
+  $output = $output."<h1>".$SF_commands['title']."</h1>";
   }
-
+if(array_key_exists('date',$SF_commands) )
+  {
+  $output = $output.'<div class="dateby"> &#8880;  '.$SF_commands['date'];
+  if(array_key_exists('author',$SF_commands))
+    {
+      $output = $output." by ".$SF_commands['author'];
+    }
+    $output = $output.'   &#8881; </div>';
+  }
 $Parsedown = new Parsedown();
 if($summaryonly >=1)
   {
    $snippet = $Parsedown->text($md);
-   $snippet = preg_replace("/\<a.*\<\/a\>/","",$snippet); // get rid of image links in summaries
-   $snippet = preg_replace("/\<img.*\/\>/","",$snippet);  // get rid of hrefs in summaries
+   $snippet = preg_replace("/<a.[^<]*>/","",$snippet); // get rid of image links in summaries
+   $snippet = preg_replace("/<img.[^<]*>/","",$snippet);  // get rid of hrefs in summaries
    $snippet = substr($snippet,0,$summaryonly);
-   echo $snippet;
+   $output = $output.$snippet.'...';
    if(!$returnreadmorelink){
-       echo '<p>[<a href="'.$_SERVER['PHP_SELF'].'?p='.substr($url,5,strlen($url)).'"">Read more..</a>]</p>';
+       $output = $output.'<p>[<a href="'.$_SERVER['PHP_SELF'].'?p='.substr($url,5,strlen($url)).'"">Read more..</a>]</p>';
    }
    else
    {
-    $SF_commands['readmorelink']='<p>[<a href="'.$_SERVER['PHP_SELF'].'?p='.substr($url,5,strlen($url)).'"">Read more..</a>]</p>';
+    $SF_commands['readmorelink']='<p>[<a href="'.$url.'"">Read more..</a>]</p>';
    }
 
   }
 else
   {
-  echo $Parsedown->text($md);
+  $output = $output.'<div class="SF_flex_box">';
+  $output = $output.'<div>';    
+  if(array_key_exists('title',$SF_commands))
+    {     
+     //$output = $output.'<h1>'.$SF_commands['title'].'</h1>';
+    }
+  $output = $output.$Parsedown->text($md);
+  $output = $output.'</div><div style="padding: 10px; margin-top: 25px;">';
+  if($SF_commands['refurl'])
+                  {
+                    include_once($SF_modulesdrivepath.'extras/urlmetapreview.php');
+                    $output = $output."\n".'<div class="linkcard">';
+                  if(($res = SF_GenerateMetapreview($SF_commands['refurl'],false)) == false)
+                     {
+                        $output = $output.'<p style="color: #FF0000;">Error:[Preview Meta lookup failed]</p>';
+                        $output = $output.'<p><a href="'.$SF_moduleswebpath.'extras/urlmetapreview.php?'.$SF_commands['refurl'].'">[Check]</a><p>';
+                     }
+                  else
+                     {
+                        $output = $output.'<p><img src="'.$res['image'].'" width="200"/></p>';
+                        $output = $output.'<p>'.$res['title']."</p>";
+                        $output = $output.'<p>[<a href="'.$SF_commands['refurl'].'">Original</a>]<p>';
+                     }
+                    $output = $output.'</div>'."\n";
+                  }
+   
+  $output = $output.'</div></div>';
+
   }
 
-return $SF_commands;
+if($returncontents)
+  {
+    return (string) $output;
+  }
+else
+  {
+    echo $output;
+    return true;
+  }
+
 }
 
 /*
@@ -1220,21 +1270,21 @@ $mailto = str_convert_htmlentities("mailto:");
 echo "
 <SCRIPT LANGUAGE=\"javascript\">
 // <!-- 
-	var first = 'ma';
-	var second = 'il';
-	var third = 'to:';
-	var fourth = '$encname';
-	var fifth = '$encdomain';
-	document.write('<a href=\"');
-	document.write(first+second+third);
-	document.write(fourth);
-	document.write('&#64;');
-	document.write(fifth);
-	document.write('\"');
+  var first = 'ma';
+  var second = 'il';
+  var third = 'to:';
+  var fourth = '$encname';
+  var fifth = '$encdomain';
+  document.write('<a href=\"');
+  document.write(first+second+third);
+  document.write(fourth);
+  document.write('&#64;');
+  document.write(fifth);
+  document.write('\"');
   "; 
 if($class) echo "document.write('class=\"".$class."\"');";
 echo "document.write('>'); 
-	document.write('".$linktext."</a>');
+  document.write('".$linktext."</a>');
 // -->
 </script>";
 echo "<noscript><a href=\"".$mailto.$encname."&#64;".$encdomain."\"";
