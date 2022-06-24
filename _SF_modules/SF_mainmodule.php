@@ -1115,8 +1115,10 @@ global $SF_sitedrivepath;
 global $SF_modulesdrivepath;
 global $SF_moduleswebpath;
 global $SF_parsedownpath;
+global $SF_parsedownextrapath;
 global $SF_commands;
 require_once ($SF_parsedownpath);
+require_once ($SF_parsedownextrapath);
 
 /* figure out if this is a http (get it) or fix the path up for getting off the local filesystem */
 //$url=sfnormaliseurl($url,'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
@@ -1156,7 +1158,7 @@ if(array_key_exists('date',$SF_commands) )
     }
     $output = $output.'   &#8881; </div>';
   }
-$Parsedown = new Parsedown();
+$Parsedown = new ParsedownExtra();
 if($summaryonly >=1)
   {
    $snippet = $Parsedown->text($md);

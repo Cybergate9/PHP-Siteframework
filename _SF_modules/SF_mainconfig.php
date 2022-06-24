@@ -27,8 +27,9 @@ $SF_sitelogo=$SF_moduleswebpath.'images/sflogo_sml.jpg';
 /****************************************************************************
 Global default values - shouldn't need to change these */
 
-/* include parsedown */
+/* include parsedown and extra paths*/
 $SF_parsedownpath=$SF_modulesdrivepath.'vendor/erusev/parsedown/Parsedown.php';
+$SF_parsedownextrapath=$SF_modulesdrivepath.'vendor/erusev/parsedown-extra/ParsedownExtra.php';
 
 /* data files */
 $defaultmenudatafile=$SF_modulesdrivepath.'SF_default_config_menu.csv';
