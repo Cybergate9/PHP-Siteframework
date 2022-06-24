@@ -3,12 +3,12 @@
 * This file is Siteframework's main configuration file
 *
 *
-* @package PHP Siteframework
-* @author Shaun Osborne
+* @package PHP-SiteFramework
+* @author Shaun Osborne (webmaster@cybergate9.net)
 * @link https://github.com/Cybergate9/PHP-Siteframework
-* @license https://github.com/Cybergate9/PHP-Siteframework/blob/main/LICENSE
-* @copyright Shaun Osborne, 2005-present
 * @access public 
+* @copyright Shaun Osborne, 2005-present
+* @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
 */
         
 
@@ -55,4 +55,9 @@ $menutoplevelidentifier='_toplevel';
 
 /* just in case we've come directly here (not via autoprepend) then set sfdebug to 0 if it's not set already */
 if(!isset($sfdebug)){$sfdebug = 0;}
+
+if($sfdebug >= 3)
+  {
+    SF_DebugMsg($SF_modulesdrivepath.'SF_mainconfig.php loaded');
+  }
 ?>

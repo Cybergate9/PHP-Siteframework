@@ -9,6 +9,8 @@
 *
 * 1) SF_mainconfig.php - for SF directory paths etc
 *
+* 2) SF_localconfig.php - intended to be the file changed on a per installation basis
+*
 * 2) SF_config_site.csv (csv text file) for defining site and subsite 'config_dir' files
 *
 * 3) SF_config_dir.csv (csv text file) for per directory configuration (menu,css,header,footer)
@@ -18,9 +20,10 @@
 *
 * CHANGE HISTORY
 * 
-* 1.9     (19Jun2022)  clean implementation of pure php caching without Cache_Lite (cacheconfig.php removed and replaced with SF_cache.php)
+* 1.19    (23Jun2022)  SF_GeneratefromMarkdownURL() updates to fine tune outputs, deal with metadata better (titles, data, author etc)
+* 1.9     (22Jun2022)  clean implementation of pure php caching without Cache_Lite (cacheconfig.php removed and replaced with SF_cache.php)
 *                      functionality remains similar:
-*                      1) caching into single directory, or multiple subdirs (if hash value > 0, on 1 or 2 recommended), 
+*                      1) caching into single directory, or multiple subdirs (if hash value > 0, only 1 or 2 recommended), 
 *                      2) timeouts in secs (3600 = 1 hour)
 *                      3) top level caching config in SF_localconfig.php, details in SF_cache.php
 * 1.83    (18Jun2022)  decided on parsedown config, composer install into _SF_modules, configure via mainconfig.php
@@ -139,12 +142,12 @@
 *
 * 1.0a added a few trim's to SF_LoadMenuData() so config file formatting is more forgiving
 *
-* @package PHP Siteframework
-* @author Shaun Osborne
+* @package PHP-SiteFramework
+* @author Shaun Osborne (webmaster@cybergate9.net)
 * @link https://github.com/Cybergate9/PHP-Siteframework
-* @license https://github.com/Cybergate9/PHP-Siteframework/blob/main/LICENSE
-* @copyright Shaun Osborne, 2005-present
 * @access public 
+* @copyright Shaun Osborne, 2005-present
+* @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
 * @version 1.9 (2022-06-19)
 */
 
@@ -1105,7 +1108,7 @@ return;
 * @param output a 'Read More' link false=no, true=yes
 * @param return value is contents of url, else return true;
 */
-function SF_GeneratefromMarkdownURL($url,$title=false,$summaryonly=false,$returnreadmorelink=false,$returncontents=false)
+function SF_GeneratefromMarkdownURL($url,$title=true,$summaryonly=false,$returnreadmorelink=false,$returncontents=false)
 /****************************************************************************/
 {
 global $SF_sitedrivepath;
@@ -1140,7 +1143,7 @@ else
    $md = $parts[0];
   }
 
-if($title and $SF_commands['title'])
+if($title and array_key_exists('title',$SF_commands))
   {
   $output = $output."<h1>".$SF_commands['title']."</h1>";
   }
@@ -1174,10 +1177,10 @@ else
   {
   $output = $output.'<div class="SF_flex_box">';
   $output = $output.'<div>';    
-  if(array_key_exists('title',$SF_commands))
+  /*if(array_key_exists('title',$SF_commands) and $title)
     {     
-     //$output = $output.'<h1>'.$SF_commands['title'].'</h1>';
-    }
+     $output = $output.'<h1>'.$SF_commands['title'].'</h1>';
+    }*/
   $output = $output.$Parsedown->text($md);
   $output = $output.'</div><div style="padding: 10px; margin-top: 25px;">';
   if($SF_commands['refurl'])

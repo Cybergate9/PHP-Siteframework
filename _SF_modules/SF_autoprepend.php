@@ -4,12 +4,12 @@
 *
 * This is what 'kicks it all off' for any given page
 *
-* @package SiteFramework
-* @author Shaun Osborne (smo30@cam.ac.uk)
-* @link http://www.fitzmuseum.cam.ac.uk/projects/phpsiteframework/
+* @package PHP-SiteFramework
+* @author Shaun Osborne (webmaster@cybergate9.net)
+* @link https://github.com/Cybergate9/PHP-Siteframework
 * @access public 
-* @copyright The Fitzwilliam Museum, University of Cambridge, UK
-* @license http://www.fitzmuseum.cam.ac.uk/projects/phpsiteframework/licences.html GPL
+* @copyright Shaun Osborne, 2005-present
+* @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
 */
 
 /**
@@ -32,19 +32,22 @@
 * @access private
 */
 $sfdebug=0;
+$SF_caching=0;
+$SF_cacheforced=false;
 
 
 /* these are only required in this module */
 $SF_starttime = microtimefloat();
 $SF_qc=array(); /*holds values for any query strings*/
 
-require_once('SF_localconfig.php');
+include('SF_localconfig.php');
+
 if($SF_caching == true)
   {
   require_once('SF_cache.php');
   }
 
-if(false){  // hard set debug 
+if(false){  // hard debug set to true if we need it 
   print("SF_autoprepend.php<br/>");
   echo get_include_path();  
   echo("<br/>SF_Caching=[" .$SF_caching. "]<br/>");
@@ -89,11 +92,24 @@ if(array_key_exists('QUERY_STRING',$_SERVER) and $_SERVER['QUERY_STRING'])
              if(array_key_exists('1',$qscomponents))
                {
                $sfdebug=intval($qscomponents[1]);
-               $SF_caching=0;  
+               $SF_forcecache=true;  
                $SF_qc['time']='y';
                }
            }
        }
+    if(!strcasecmp('cache',$qscomponents[0]) or !strcasecmp('c',$qscomponents[0]))
+       {
+         if(array_key_exists('1',$qscomponents))
+           {
+           $cacheoption=intval($qscomponents[1]);
+           if((($cacheoption <=> 'force') == 0) or (($cacheoption <=> 'force') == 0))
+             {
+              echo "qsfc".$cacheoption."<br/>";
+              $SF_forcecache=true;
+              $SF_qc['time']='y';
+             }
+           }
+       } 
   }
 }
 
@@ -111,7 +127,7 @@ else
 
 if($sfdebug >=2)
   {
-    echo("<br/>SF_Caching=[" .$SF_caching. "], SF_framcache=[".$SF_fromcache."]<br/>");
+    echo("<br/>SF_Caching=[" .$SF_caching. "], SF_fromcache=[".$SF_fromcache."] SF_cacheforced=[".$SF_forcecache."]<br/>");
   }
 
 /* if caching is still on (config or excludes may have turned it off)- check cache for this, if not start caching it */
@@ -173,7 +189,7 @@ if(array_key_exists('contentpp',$dirconfigarray)  and !strcmp("yes",$dirconfigar
   //print_r($contents);
   if(count($parts) > 1)
     {
-      $yaml = simpleyaml(explode("\n",$parts[0]));
+      $yaml = simpleyaml(explode("\n",$parts[0])); // simpleyaml() from SF_mainmodule.php
       foreach($yaml as $key=>$value)
         {
           $SF_commands[$key]=$value;
@@ -207,7 +223,7 @@ if(!preg_match('@none$@i',$dirconfigarray['headerfile']))
 $ext = pathinfo($SF_phpselfdrivepath, PATHINFO_EXTENSION);
 if($ext == "md")
  { 
-  $ret=SF_GeneratefromMarkdownURL($SF_phpselfdrivepath);
+  $ret=SF_GeneratefromMarkdownURL($SF_phpselfdrivepath,true);
   if(!$ret)
   {SF_ErrorExit('SF_autoprepend.php','Failed to open Markdown "content" file "'.$SF_phpselfdrivepath.'"');}
  }
@@ -233,7 +249,6 @@ if(!preg_match('@none$@i',$dirconfigarray['headerfile']))
 if($SF_caching==true)
   {
     $SF_fromcache = SF_cacheend();
-
   }
 
 apexit();

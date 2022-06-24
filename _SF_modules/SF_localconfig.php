@@ -4,12 +4,12 @@
 *
 * Edit at least $SF_sitewebpath
 *
-* @package SiteFramework
-* @author Shaun Osborne (smo30@cam.ac.uk)
-* @link http://www.fitzmuseum.cam.ac.uk/projects/phpsiteframework/
-* @license http://www.fitzmuseum.cam.ac.uk/projects/phpsiteframework/licences.html GPL
+* @package PHP-SiteFramework
+* @author Shaun Osborne (webmaster@cybergate9.net)
+* @link https://github.com/Cybergate9/PHP-Siteframework
 * @access public 
-* @copyright The Fitzwilliam Museum, University of Cambridge, UK
+* @copyright Shaun Osborne, 2005-present
+* @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
 */
         
 
@@ -29,7 +29,14 @@ $SF_defaultindexfile='index.html';
    SF_caching = turn caching on (1/true) or off (0/false) 
    SF_cachedir = set directory (mush be read/write apache obviously
 */
+global $SF_caching;
+global $SF_cachedir;
 $SF_caching=0;
 $SF_cachedir = '/Users/Shaun/dev/httpd/temp/'; // with trailing slash
 
 /* end of Local Configuration Settings */
+
+if($sfdebug >= 3)
+  {
+    SF_DebugMsg($SF_modulesdrivepath.'SF_localconfig.php loaded');
+  }
