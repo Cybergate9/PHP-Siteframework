@@ -2,21 +2,35 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="/favicon/favicon-32x32.png">
   <?php include($SF_modulesdrivepath."SF_defaultmetadata.html"); ?>
   <title><?php echo SF_GetPageTitle(GPT_BREADCRUMB); ?></title>
   <?php
+    //var_dump($SF_commands);
     /* to make CSS cascade/combine they must be titled the same */
     echo "<link href=\"".SF_GetDefaultCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>\n";
     echo "<link href=\"".SF_GetCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>\n"; 
-    echo '<meta name="og:description" content="Open the gate.. welcome to this dimension.." />'."\n";
-    echo '<meta name="og:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
-    echo '<meta name="og:image:url" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
-    echo '<meta name="twitter:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
+    echo '<meta property="og:url" content="'.$_SERVER['PHP_SELF'].'" >'."\n";
+
+    if(array_key_exists('title',$SF_commands))
+      { 
+       echo '<meta property="og:title" content="'.$SF_commands['title'].'" />'."\n";
+       echo '<meta property="og:description" content="'.$SF_commands['title'].'" />'."\n";
+      }
+    else
+      {
+        echo '<meta property="og:title" content="Cybergate9.Net" />'."\n";
+        echo '<meta property="og:description" content="Open the gate.. welcome to this dimension.." />'."\n";
+      }
+    echo '<meta property="og:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
+    echo '<meta property="og:image:url" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
+    echo '<meta property="twitter:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
   ?>
 </head>
 
 <body class="cards">
-<!-- SwishCommand noindex -->
     <div id="SF_headerarea" class="card SF_headerarea">
     <p class="SF_header_optionstext">
     <!-- defines the accessibility access keys on every page -->
@@ -30,7 +44,7 @@
     </p>
     <div class="card">
     <div style="display: block; float: left; padding-right: 15px;">
-      <img src="<?php echo $SF_sitewebpath;?>images/noderivs/jtbeastie.gif" alt="Logo" style="width:  9rem;"/>
+      <img src="<?php echo $SF_sitewebpath;?>images/noderivs/jtbeastie-lge.gif" alt="Logo" style="width:  9rem;"/>
     </div>
     <div class="SF_header_heading">
       
@@ -44,7 +58,8 @@
 
     <div id="SF_bodyarea" class="SF_bodyarea">
 
-    <!-- SF_Command:content:begins -->
+<!-- SF_Command:content:begins -->
+
     <div id="SF_contentarea" class="card">
     
 

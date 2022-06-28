@@ -18,10 +18,10 @@ Site Framework (SF) Local Configuration Settings
 note: leading and trailing slashes SHOULD be used  (just / for root is OK though)
 */
 $SF_documentroot='/Users/Shaun/dev/httpd/public_html';
-$SF_sitewebpath='/cg9/';
+$SF_sitewebpath='/sf-dist/';
 
 /* optionals */
-$SF_sitetitle='Cybergate9.Net';
+$SF_sitetitle='PHP-SiteFramework';
 $SF_contentpreprocessor=true;
 $SF_defaultindexfile='index.html';
 

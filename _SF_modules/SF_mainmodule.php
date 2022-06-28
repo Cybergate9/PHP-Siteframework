@@ -9,18 +9,19 @@
 *
 * 1) SF_mainconfig.php - for SF directory paths etc
 *
-* 2) SF_localconfig.php - intended to be the file changed on a per installation basis
+* 2) SF_localconfig.php - intended to be the file changed on a per installation/host basis
 *
 * 2) SF_config_site.csv (csv text file) for defining site and subsite 'config_dir' files
 *
-* 3) SF_config_dir.csv (csv text file) for per directory configuration (menu,css,header,footer)
+* 3) SF_config_dir.csv (csv text file) for per directory configuration (menu, css, header, footer)
 *
 * 4) SF_config_menu.csv (csv text file) for menu configuration data
 * 
 *
 * CHANGE HISTORY
 * 
-* 1.19    (23Jun2022)  SF_GeneratefromMarkdownURL() updates to fine tune outputs, deal with metadata better (titles, data, author etc)
+* 1.91    (29Jun2022)  SF_GeneratefromMarkdownURL() updates to fine tune outputs, deal with metadata better (titles, data, author etc)
+*                      SF_GeneratefromMarkdownURL() now requires and is using ParsedownExtra
 * 1.9     (22Jun2022)  clean implementation of pure php caching without Cache_Lite (cacheconfig.php removed and replaced with SF_cache.php)
 *                      functionality remains similar:
 *                      1) caching into single directory, or multiple subdirs (if hash value > 0, only 1 or 2 recommended), 
@@ -142,13 +143,13 @@
 *
 * 1.0a added a few trim's to SF_LoadMenuData() so config file formatting is more forgiving
 *
-* @package PHP-SiteFramework
+* @package PHP-Siteframework
 * @author Shaun Osborne (webmaster@cybergate9.net)
 * @link https://github.com/Cybergate9/PHP-Siteframework
 * @access public 
 * @copyright Shaun Osborne, 2005-present
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
-* @version 1.9 (2022-06-19)
+* @version 1.91 (2022-06-29)
 */
 
 /**
@@ -161,7 +162,7 @@ require_once('SF_mainconfig.php');
 /**
 * Siteframework (as a whole) version number
 */
-$sfversion='1.9 (2022-06-19)';
+$sfversion='1.91 (2022-06-29)';
 #error_reporting(1); /* only report errors */
 
 /****************************************************************************
@@ -1179,10 +1180,6 @@ else
   {
   $output = $output.'<div class="SF_flex_box">';
   $output = $output.'<div>';    
-  /*if(array_key_exists('title',$SF_commands) and $title)
-    {     
-     $output = $output.'<h1>'.$SF_commands['title'].'</h1>';
-    }*/
   $output = $output.$Parsedown->text($md);
   $output = $output.'</div><div style="padding: 10px; margin-top: 25px;">';
   if($SF_commands['refurl'])

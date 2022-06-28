@@ -4,7 +4,7 @@
 *
 * This is what 'kicks it all off' for any given page
 *
-* @package PHP-SiteFramework
+* @package PHP-Siteframework
 * @author Shaun Osborne (webmaster@cybergate9.net)
 * @link https://github.com/Cybergate9/PHP-Siteframework
 * @access public 
@@ -128,6 +128,7 @@ else
 if($sfdebug >=2)
   {
     echo("<br/>SF_Caching=[" .$SF_caching. "], SF_fromcache=[".$SF_fromcache."] SF_cacheforced=[".$SF_forcecache."]<br/>");
+    print_r($SF_qc);
   }
 
 /* if caching is still on (config or excludes may have turned it off)- check cache for this, if not start caching it */
@@ -200,11 +201,19 @@ if(array_key_exists('contentpp',$dirconfigarray)  and !strcmp("yes",$dirconfigar
 /* if we got sf_function=nosf or a <!-- SF_Command:nosf:anything --> then do that, end the cache and exit*/
 if(array_key_exists('nosf',$SF_commands) or array_key_exists('nosf',$SF_qc))
 {
+if($sfdebug >= 1){
+  echo "NO FRAMEWORK";
+}
 echo file_get_contents($SF_phpselfdrivepath);
+
 /* end caching capture if its turned on */
 if($SF_caching==true)
   {
     $SF_fromcache=SF_cacheend();
+    apexit();
+  }
+else
+  {
     apexit();
   }
 }

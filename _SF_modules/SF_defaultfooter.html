@@ -3,15 +3,16 @@
 
 if(array_key_exists('date',$SF_commands))
   {
-    echo '<p class="SF_content_footertext">Page updated: '.$SF_commands['date'].'</p>';
+    echo '<div class="SF_content_footertext">Page updated: '.$SF_commands['date'].'</div>';
   }
 else
   {
-   echo '<p class="SF_content_footertext">Page updated: '.SF_GetPageModifiedDate('','dMY').'</p>';
+   echo '<div class="SF_content_footertext">Page updated: '.SF_GetPageModifiedDate('','dMY').'</div>';
   }
 ?>
 
-</div> <!-- end of SF_contentarea -->
+</div> 
+<!-- end of SF_contentarea -->
 
 
 </div> 
@@ -23,9 +24,9 @@ else
 
   <div class="SF_footerarea">
   <hr class="border"/>
-  <?php SF_GenerateBreadCrumbLine("you are at :"," > ",1); ?>
+  <?php SF_GenerateBreadCrumbLine("you're at: "," > ",1); ?>
   <p class="SF_footer_text">
-  ( <?php echo $SF_sitetitle . 'running on <a href="https://github.com/Cybergate9/PHP-Siteframework"> PHP Siteframework</a>'; ?> )
+  ( <?php echo $SF_sitetitle . ' running on <a href="https://github.com/Cybergate9/PHP-Siteframework"> PHP Siteframework</a>'; ?> )
   </p>
   </div> <!-- end of SF_footerarea -->
 

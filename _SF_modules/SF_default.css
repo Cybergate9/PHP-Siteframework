@@ -1,283 +1,128 @@
+.SF_breadcrumb_item a:hover {color: #0000FF;}
+.SF_breadcrumb_item, .SF_breadcrumb_item a:link, .SF_breadcrumb_item a:visited {margin: 0px 0px 0px 1px; color: #449944; text-decoration: none;}
+.SF_breadcrumb_line {margin: 0px 0px 0px 0px; font-size: 10pt !important;}
+.SF_breadcrumb_title {margin: 0px 0px 0px 0px;}
+.SF_breadcrumbarea {margin: 5px 0px 5px 0px; font-family: sans-serif;}
+
+.SF_content_footertext {text-align: right; margin: 5px 0px 0px 0px; font-size: .8rem !important;}
+.SF_content_headertext , .SF_content_headertext a:link, .SF_content_headertext a:visited {text-align: right; margin: 0px 0px -1px 0px; font-size: .75rem; font-family: sans-serif;}
+
+.SF_debug_text {font-family: sans-serif; font-size: 7pt; color: #000000; margin: 0px 0px 0px 0px;}
+.SF_error_text {font-family: sans-serif; font-size: 10pt; font-weight: bold; color: #FF0000; margin: 0px 0px 0px 0px;}
+
+.SF_footer_text {margin: 0px 0px 0px 0px; font-size: 10pt !important;}
+.SF_footerarea { font-family: sans-serif; margin-left:  1rem; margin-right:  1rem;}
+
+.SF_header_heading {font-weight: bold; margin: 0px 0px 0px 0px; vertical-align: middle; font-size: 1.6rem;}
+.SF_header_optionstext , .SF_header_optionstext a:link, .SF_header_optionstext a:visited {font-size: .75rem; text-align: right; margin: 0px 0px 0px 0px;}
+.SF_headerarea p {font-size: .75rem; }
+.SF_headerarea {margin: -8px 0px -40px 0px; font-family: sans-serif; font-size: 1.2rem; }
+
+#SF_menuarea.SF_menuarea a {font-size:  1rem;}
+.SF_menu_level_1_highlight {font-size:  2rem;}
+.SF_map_level_1, .SF_map_level_1 a:link, .SF_map_level_1 a:visited {font-size: 11pt; color: #000000; font-weight: bold; margin: 1px 0px 1px 20px; }
+.SF_map_level_2, .SF_map_level_2 a:link, .SF_map_level_2 a:visited {font-size: 10pt; color: #000000; margin: 1px 0px 1px 35px;}
+.SF_map_level_3, .SF_map_level_3 a:link, .SF_map_level_3 a:visited {font-size: 9pt; color: #000000; margin: 1px 0px 1px 50px;}
+.SF_map_level_4, .SF_map_level_4 a:link, .SF_map_level_4 a:visited {font-size: 8pt; color: #000000; margin: 1px 0px 1px 65px;}
+.SF_map_level_5, .SF_map_level_5 a:link, .SF_map_level_5 a:visited {font-size: 8pt; color: #000000; margin: 1px 0px 1px 80px;}
+.SF_map_level_6, .SF_map_level_6 a:link, .SF_map_level_6 a:visited {font-size: 8pt; color: #000000; margin: 1px 0px 1px 95px;}
+
+.SF_menu_level_1 {display: inline; }
+.SF_menu_level_1 a:hover, .SF_menu_level_1_highlight a:hover { margin: 0px 0px 0px 0px; background-color:  #BBBBBB !important; color: #FFF000 !important; display: inline; padding: 5px 0px 5px 0px;}
+.SF_menu_level_1_highlight a:hover { margin: 0px -3px 0px -3px !important; }
+.SF_menu_level_1 a:link, .SF_menu_level_1 a:visited { color: #000000; margin: 0px 0px 0px 0px; padding: 5px 5px 5px 5px; text-decoration: none; display: inline; border: 1px solid black;}
+.SF_menu_level_1_highlight a:link, .SF_menu_level_1_highlight a:visited { color: #FF0000; margin: 0px 0px 0px 0px; text-decoration: none; display: inline; padding: 5px 5px 5px 5px;}
+.SF_menu_level_1_highlight { color: #FF0000; margin: 0px 0px 0px 0px; text-decoration: none; display: inline; border: 1px solid black; padding: 8px 3px 6px 3px;}
+.SF_menu_level_1_highlight p {margin: 0; padding: 5px 5px 5px 5px;}
+.SF_menu_level_2 a:hover, .SF_menu_level_2_highlight a:hover { margin: 0px 0px 0px 0px; background-color:  #AAAAAA !important; color: #FFF000 !important; display: inline; padding: 5px 0px 5px 0px;}
 
 
-html { font-size: 100%; }
+.SF_menu_level_2 a:hover, .SF_menu_level_2_highlight a:hover {color: #0000FF;}
+.SF_menu_level_2, .SF_menu_level_2 a:link, .SF_menu_level_2 a:visited {display:  inline; order: 1px solid black; color: #449944; margin: 0px 0px 0px 0px; text-indent: 0px; text-decoration: none;}
+.SF_menu_level_2_highlight a:link, .SF_menu_level_2_highlight a:visited {display:  inline; color: #FF0000; margin: 0px 0px 0px 0px; text-indent: 0px; text-decoration: none;}
+.SF_menu_level_2_highlight {display:  inline; color: #FF0000; margin: 0px 0px 0px 0px; text-indent: 0px; text-decoration: none;}
 
-body { font-size: .9rem; }
+#SF_menuarea.SF_menuarea {height: 2rem; font-family: sans-serif; display:  block; line-height: 2rem !important;}
 
-body p {font-size: 1.1rem;}
+.SF_offsite_link a:hover {color: #0000FF;}
+.SF_offsite_link, .SF_offsite_link a:link, .SF_offsite_link a:visited {color: #999999;}
 
-.card {
-  /* background-color: dodgerblue;
-  color: white;*/
-  padding: 0.5rem;
-  height: auto;
-  display:  block;
-}
+.SF_timing_text {font-family: sans-serif; font-size: 7pt; color: #990000; margin: 0px 0px 0px 0px; text-align: right;}
 
-.linkcard {
-  max-width: 400px;
-  margin: 0 auto;
-  padding:  10px 10px 10px 10px;
-  gap: 0.25rem;
-  border:  1px solid black;
-  float: initial;
-}
+.SF_flex_box {display:  flex;}
 
-.linkcard p {
-	margin: 0 20px 0 20px;
-	text-align: center;
-}
+.border {border:1px solid black;}
 
-.cards {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: grid;
-  gap: 0.25rem;
-}
+.card-content {/* background-color: dodgerblue; color: white;*/ padding: 0.5rem; height: auto; display: block;}
+.card {/* background-color: dodgerblue; color: white;*/ padding: 1rem; height: auto; display: block;}
+.cards {max-width: 1024px; margin: 0 auto; display: grid; gap: 0.25rem;}
 
-.border {
-	border:1px solid black;
+
+#SF_contentarea p {
+	font-size:  1.1rem !important;
+  line-height: 1.4rem !important;
 }
 
 
+.linkcard p {margin: 0 20px 0 20px;text-align: center;}
+.linkcard {max-width: 400px; margin: 0 auto; padding: 10px 10px 10px 10px; gap: 0.25rem; border: 1px solid black; float: initial;}
 
-a:link {
-}
-a:visited {
-}
-a:active {
-}
-a:hover {
-/*hover doesn't work in nn4*/
-}
+a:active {}
+a:hover {/*hover doesn't work in nn4*/}
+a:link {}
+a:visited {}
 
-h1 {
-	font-family: sans-serif;
-	font-weight: bold;
-}
-h2 { 
-	font-family: sans-serif;
-	font-weight: bold;
-}
-h3 {
+body {font-size: 1rem;}
 
-	font-weight: bold;
-}
-h4 {
+h1 {font-family: sans-serif; font-weight: bold;}
+h2 { font-family: sans-serif; font-weight: bold;}
+h3 {font-weight: bold;}
+h4 {font-weight: bold;}
+html {font-size: 100%; }
+pre {font-family: monospace; font-size:  .75rem;}
+strong, b {font-weight: bold;}
+table td {border:  1px solid grey;}
 
-	font-weight: bold;
-}
-pre {
-	font-family: monospace;
-}
-strong, b {
-	font-weight: bold;
-}
-/***** SF divs/styles for header area */
-.SF_headerarea {
-	margin: -8px 0px 0px 0px;
+.dateby {
+	margin: -1rem 0 0 0; 
 	font-family:  sans-serif;
-	font-size:  1.2rem;
-
+	font-size:  .8rem;
 }
 
-.SF_headerarea p {
-	
-}
-.SF_header_heading {
-	font-weight: bold;
-	margin: 5px 0px 0px 0px;
-	vertical-align: middle;
-	font-size: 1.6rem;
-}
-
-
-.SF_header_optionstext , .SF_header_optionstext a:link, .SF_header_optionstext a:visited {
-  font-size: .75rem;
-	text-align: right;
-	margin: 0px 0px 0px 0px;
-}
-
-
-
-/***** SF styles for content area*/
-.SF_content_headertext , .SF_content_headertext a:link, .SF_content_headertext a:visited {
-	text-align: right;
-	margin: 0px 0px -1px 0px;
-	font-size: .75rem;
-	font-family: sans-serif;
-}
-.SF_content_footertext {
-	
-	text-align: right;
-	margin: 5px 0px 0px 0px;
-  font-size: .75rem !important;
+/* a very basic 'reveal' just using CSS and checkbox
+in html just use: 
+<div class="container">
+Do show <input type="checkbox" id="check_id">
+	<ul>
+  	When checkbox checked this shows
+	</ul>
+</input>
+</div>
+ref:  https://www.sitepoint.com/implementing-show-moreless-functionality-with-pure-css/
+also see for future checkbox customisation: 
+https://dev.to/proticm/styling-html-checkboxes-is-super-easy-302o;
+*/
+input[type="checkbox"] ~ ul {
+  width: 100%;
+  display: none;
 }
 
+[type="checkbox"]:checked ~ ul {
+  display: block;
+} 
 
+[type="checkbox"]:checked + label:before {
+  content: '';
+}
 
-/***** SF styles for breadcrumb line*/
-.SF_breadcrumbarea {
-	margin: 5px 0px 5px 0px;
-	font-family: sans-serif;
+[type="checkbox"]:checked + label:after {
+ content: '->Hide'; 
 }
-.SF_breadcrumb_line {
-	margin: 0px 0px 0px 0px;
-	font-size:  10pt !important;
-}
-.SF_breadcrumb_title {
-	margin: 0px 0px 0px 0px;
-}
-.SF_breadcrumb_item, .SF_breadcrumb_item a:link, .SF_breadcrumb_item a:visited {
-	margin: 0px 0px 0px 1px;
-	color: #449944;
-	text-decoration: none;
-}
-.SF_breadcrumb_item a:hover {
-	color: #0000FF;
+.container { 
+  position: relative; 
+  height: auto;
+  border-top: 0;
 }
 
 
-
-/***** SF styles for menus */
-.SF_menuarea {
-	margin: 10px 0px 0px 10px;
-	font-family: sans-serif;
-	font-size: 1rem;
-
-}
-
-.SF_menu_level_1  {
-	display: inline;
-}
-.SF_menu_level_1 a:link, .SF_menu_level_1 a:visited {
-	color: #000000;
-	margin: 0px 0px 0px 0px;
-	padding: 5px 5px 5px 5px;
-	text-decoration: none;
-	display:  inline;
-	border: 1px solid black;
-}
-
-.SF_menu_level_1_highlight {
-	color: #FF0000;
-	margin: 0px 0px 0px 0px;
-	text-decoration: none;
-	display:  inline;
-	border: 1px solid black;
-	padding: 5px 5px 5px 5px;
-}
-.SF_menu_level_1_highlight a:link, .SF_menu_level_1_highlight a:visited {
-	color: #FF0000;
-	margin: 0px 0px 0px 0px;
-	text-decoration: none;
-	display:  inline;
-	padding: 5px 5px 5px 5px;
-}
-.SF_menu_level_1 a:hover, .SF_menu_level_1_highlight a:hover {
-	margin: 0px 0px 0px 0px;
-	color: #0000FF;
-	display:  inline;
-	padding: 5px 5px 5px 5px;
-}
-
-
-.SF_menu_level_2, .SF_menu_level_2 a:link, .SF_menu_level_2 a:visited {
-	color: #449944;
-	margin: 3px 0px 2px 15px;
-	text-indent: -15px;
-	text-decoration: none;
-}
-.SF_menu_level_2_highlight {
-	color: #FF0000;
-	margin: 3px 0px 2px 15px;
-	text-indent: -15px;
-	text-decoration: none;
-}
-.SF_menu_level_2_highlight a:link, .SF_menu_level_2_highlight a:visited {
-	color: #FF0000;
-	margin: 3px 0px 2px 15px;
-	text-indent: -15px;
-	text-decoration: none;
-}
-.SF_menu_level_2 a:hover,  .SF_menu_level_2_highlight a:hover {
-	color: #0000FF;
-}
-.SF_offsite_link, .SF_offsite_link a:link, .SF_offsite_link a:visited {
-	color: #999999;
-}
-.SF_offsite_link a:hover {
-	color: #0000FF;
-}
-
-
-
-/***** SF styles for footer area*/
-.SF_footerarea {
-		font-family: sans-serif;
-}
-
-.SF_footer_text {
-	margin: 0px 0px 0px 0px;
-		font-size:  10pt !important;
-}
-
-
-
-/***** SF styles for site map */
-.SF_map_level_1, .SF_map_level_1 a:link, .SF_map_level_1 a:visited {
-	font-size: 11pt;
-	color: #000000;
-	font-weight: bold;
-	margin: 1px 0px 1px 20px;
-
-}
-.SF_map_level_2, .SF_map_level_2 a:link, .SF_map_level_2 a:visited {
-	font-size: 10pt;
-	color: #000000;
-	margin: 1px 0px 1px 35px;
-}
-.SF_map_level_3, .SF_map_level_3 a:link, .SF_map_level_3 a:visited {
-	font-size: 9pt;
-	color: #000000;
-	margin: 1px 0px 1px 50px;
-}
-.SF_map_level_4, .SF_map_level_4 a:link, .SF_map_level_4 a:visited {
-	font-size: 8pt;
-	color: #000000;
-	margin: 1px 0px 1px 65px;
-}
-.SF_map_level_5, .SF_map_level_5 a:link, .SF_map_level_5 a:visited {
-	font-size: 8pt;
-	color: #000000;
-	margin: 1px 0px 1px 80px;
-}
-.SF_map_level_6, .SF_map_level_6 a:link, .SF_map_level_6 a:visited {
-	font-size: 8pt;
-	color: #000000;
-	margin: 1px 0px 1px 95px;
-}
-
-
-/***** SF Styles for errors, debugging, timing etc */
-.SF_debug_text {
-	font-family: sans-serif;
-	font-size: 7pt;
-	color: #000000;
-	margin: 0px 0px 0px 0px;
-}
-.SF_error_text {
-	font-family: sans-serif;
-	font-size: 10pt;
-	font-weight: bold;
-	color: #FF0000;
-	margin: 0px 0px 0px 0px;
-}
-.SF_timing_text {
-	font-family: sans-serif;
-	font-size: 7pt;
-	color: #990000;
-	margin: 0px 0px 0px 0px;
-	text-align: right;
-}
  
