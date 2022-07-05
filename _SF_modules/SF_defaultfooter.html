@@ -1,6 +1,15 @@
 
 <?php
 
+
+if(array_key_exists('category',$SF_commands))
+  {
+    echo '<div class="SF_content_footertext">Categories: '.$SF_commands['category'].'</div>';
+  }
+if(array_key_exists('tags',$SF_commands))
+  {
+    echo '<div class="SF_content_footertext">Tags: '.$SF_commands['tags'].'</div>';
+  }
 if(array_key_exists('date',$SF_commands))
   {
     echo '<div class="SF_content_footertext">Page updated: '.$SF_commands['date'].'</div>';

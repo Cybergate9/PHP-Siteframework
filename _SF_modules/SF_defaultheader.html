@@ -8,10 +8,17 @@
   <?php include($SF_modulesdrivepath."SF_defaultmetadata.html"); ?>
   <title><?php echo SF_GetPageTitle(GPT_BREADCRUMB); ?></title>
   <?php
-    //var_dump($SF_commands);
+    if($sfdebug >=2) {var_dump($SF_commands);}
+    if(array_key_exists('lightbox',$SF_commands))
+      { 
+        echo '<link rel="stylesheet" href="'.$SF_moduleswebpath.'vendor/nicolafranchini/venobox/dist/venobox.min.css" />'."\n";
+        echo '<script src="'.$SF_moduleswebpath.'vendor/nicolafranchini/venobox/dist/venobox.min.js"></script>'."\n";
+      }
     /* to make CSS cascade/combine they must be titled the same */
-    echo "<link href=\"".SF_GetDefaultCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>\n";
-    echo "<link href=\"".SF_GetCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>\n"; 
+    // echo "<link href=\"".SF_GetDefaultCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>\n";
+     echo '<link href="'.SF_GetDefaultCSSFilename().'" rel="stylesheet" title="SF_CSS" type="text/css"/>'."\n";
+    // echo "<link href=\"".SF_GetCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>\n"; 
+    echo '<link href="'.SF_GetCSSFilename().'" rel="stylesheet" title="SF_CSS" type="text/css"/>'."\n";
     echo '<meta property="og:url" content="'.$_SERVER['PHP_SELF'].'" >'."\n";
 
     if(array_key_exists('title',$SF_commands))
@@ -24,9 +31,9 @@
         echo '<meta property="og:title" content="Cybergate9.Net" />'."\n";
         echo '<meta property="og:description" content="Open the gate.. welcome to this dimension.." />'."\n";
       }
-    echo '<meta property="og:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
-    echo '<meta property="og:image:url" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
-    echo '<meta property="twitter:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/jtbeastie.gif" />'."\n";
+    echo '<meta property="og:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/cg9-logoimage.jpg" />'."\n";
+    echo '<meta property="og:image:url" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/cg9-logoimage.jpg" />'."\n";
+    echo '<meta property="twitter:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/cg9-logoimage.jpg" />'."\n";
   ?>
 </head>
 
@@ -44,7 +51,7 @@
     </p>
     <div class="card">
     <div style="display: block; float: left; padding-right: 15px;">
-      <img src="<?php echo $SF_sitewebpath;?>images/noderivs/jtbeastie-lge.gif" alt="Logo" style="width:  9rem;"/>
+      <img src="<?php echo $SF_sitewebpath;?>images/noderivs/cg9-logoimage.jpg" alt="Logo" style="width:  8rem;"/>
     </div>
     <div class="SF_header_heading">
       
@@ -53,7 +60,8 @@
     </div>
     <?php SF_GenerateNavigationMenu(); ?>
     </div>
-
+    <div class="card">
+    </div>
 
 
     <div id="SF_bodyarea" class="SF_bodyarea">
