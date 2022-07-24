@@ -1,5 +1,19 @@
-<?php require_once("../SF_mainmodule.php"); 
+<?php 
+require_once("../SF_mainmodule.php"); 
 require_once("../SF_cache.php"); 
+/* a very basic 'reveal' just using CSS and checkbox
+in html just use: 
+<div class="container">
+Do show <input type="checkbox" id="check_id">
+  <ul>
+    When checkbox checked this shows
+  </ul>
+</input>
+</div>
+ref:  https://www.sitepoint.com/implementing-show-moreless-functionality-with-pure-css/
+also see for future checkbox customisation: 
+https://dev.to/proticm/styling-html-checkboxes-is-super-easy-302o;
+*/
 ?>
 
 <html lang="en">
@@ -12,6 +26,27 @@ require_once("../SF_cache.php");
   h3 {font-family: sans-serif;
     font-size:  1.2rem;}
 
+input[type="checkbox"] ~ ul {
+  width: 100%;
+  display: none;
+}
+
+[type="checkbox"]:checked ~ ul {
+  display: block;
+} 
+
+[type="checkbox"]:checked + label:before {
+  content: '';
+}
+
+[type="checkbox"]:checked + label:after {
+ content: '->Hide'; 
+}
+.container { 
+  position: relative; 
+  height: auto;
+  border-top: 0;
+}
 </style>
 </head>
 
