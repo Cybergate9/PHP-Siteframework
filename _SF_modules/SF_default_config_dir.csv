@@ -1,5 +1,0 @@
-dir (should have both leading and trailing slashes),Menu File,Menu Set,Submenu to open,CSS file,HTML Header file,HTML Footer file,Content PP?,Section Heading,Custom 1,Custom 2,Custom 3,e
-/,,site,_toplevel,,,,no,,,,,e
-/blog/,,site,blog,,,,yes,,,,,e
-/blog/2022/,,site,2022,,,,yes,,,,,e
-/blog/2009/,,site,2009,,,,yes,,,,,e

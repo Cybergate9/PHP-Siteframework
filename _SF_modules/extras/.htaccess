@@ -1,7 +1,0 @@
-AddType application/x-httpd-php .php .html
-php_value include_path .;e:\Apache2www\testsite\_SF_modules
-php_value auto_prepend_file "autoheader.php"
-php_value auto_append_file "autofooter.php"
-php_flag display_errors  On
-php_value error_reporting 2047
-

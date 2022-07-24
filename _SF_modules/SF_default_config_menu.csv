@@ -1,4 +1,0 @@
-Menu Set name,Menu Subset name,Title,Order,URL (from SF (sub)siteroot - should not contain leading slashes),end
-site,_toplevel,Home,0,index.html,e
-site,_toplevel,Test,11,demo1/index.html,e
-site,_toplevel,Site Map,12,sitemap.html,e
