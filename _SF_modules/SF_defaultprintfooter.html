@@ -1,0 +1,8 @@
+<hr size="1"/>
+<?php $pr_url=preg_replace("/[\?|\&]sf_function=print$/","",$_SERVER['REQUEST_URI'])?>
+<span class=\"SF_site_footer_text\">Page URL: <?php echo "http://".$_SERVER['HTTP_HOST'].$pr_url ?><br/>
+<?php 
+if(!preg_match("@\?@",$pr_url)){echo "Page updated: ".SF_GetPageModifiedDate($_SERVER['DOCUMENT_ROOT'].$_SERVER['PHP_SELF'],"dMY H:i")."<br/>";} ?>
+Current date: <?php echo date("dMY H:i") ?><br/><br/>
+<a href="<?php echo $pr_url ?>">[Back]</a>
+</span></body></html>

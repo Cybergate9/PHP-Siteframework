@@ -1,0 +1,4 @@
+Dir (from siteroot should have both leading and trailing slashes),"Directory config file (from (sub)site root, no leading slash reqd.)"
+/,_SF_modules/SF_default_config_dir.csv
+/cg9/,_SF_modules/SF_default_config_dir.csv
+/demo2/,_SF_config/SF_someother_config_dir.csv
