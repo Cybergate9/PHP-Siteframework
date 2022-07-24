@@ -1,0 +1,22 @@
+LoadModule php_module /usr/local/opt/php/lib/httpd/modules/libphp.so
+
+<FilesMatch \.php$>
+SetHandler application/x-httpd-php
+</FilesMatch>
+
+<Directory /Users/Shaun/dev/httpd/public_html/sf_dist/>
+    # No options are required for SF
+    Options None
+    # No overrides are required for SF
+    AllowOverride All
+    # .html files will be treated like .php files
+    AddType application/x-httpd-php .php .html .md
+</Directory>
+
+<Directory /Users/Shaun/dev/httpd/public_html/sf_dist/_SF_modules/>
+    # inherits everthing else from previous dir
+    php_value auto_prepend_file none
+    # A directory restriction is optional but recommended
+    Order Deny,Allow
+    Allow from locahost
+</Directory>
