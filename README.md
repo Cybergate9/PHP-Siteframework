@@ -13,9 +13,9 @@ Version 2 adds:
 
 	* include simple yaml front matter processing, all processed into global $SF_commands[] making them available 'everywhere'
 
-* fully configurable caching, into hash directory tree if desired, with no external dependencies
+* fully configurable caching, into hash directory tree if desired, with no external dependencies, now fully tested
 
-* {{shortcode}} processor, enabled by front matter shortcode:yes on page by page basis. 
+* {{shortcode}} processor, enabled by front matter shortcode:yes on a page by page basis. 
 
 	* all shortcodes will have matching scf_* PHP function to process 
 
@@ -23,9 +23,14 @@ Version 2 adds:
 
 		* scf_vb (verbatim, wrap everything in htmlspecialchars),
 
-		* scf_img (do html image rendering out of standard images/web500 etc)
+		* scf_img (do html image rendering out of standard images/web500 dir etc)
 
-		* scf_lbgallery (do a javascript, lightbox'ed image gallery)
+		* scf_lbgallery (do a javascript, lightbox'ed image gallery out of standard images/web500 dir etc.)
+
+* javascript libraries ([venobox](https://veno.es/venobox/), [htmx](https://htmx.org/), [hyperscript](https://hyperscript.org/)) can easily be included via defaultheader.html by setting in yaml front matter
+
+* defaultheader and defaultfooter now tidied up and shortened, but are specific to my website build for time being as it provides decent examples of 'real world use'
+
 
 
 

@@ -1,38 +1,5 @@
 <?php
-/*
-if (defined('STDIN')) {
-    global $SF_sitedrivepath;
-    //$qurl = "https://github.com/LeonardoCardoso/Link-Preview";
-    $qurl = 'https://www.theguardian.com/commentisfree/2022/jun/28/the-decisions-i-make-in-the-senate-matter-and-i-trust-my-staff-to-guide-me-through-them';
-    echo "\n";
-    $storedpreviewmetadatafile = $SF_sitedrivepath.'storedpreviewmetadata.json';
-    if ($returnedjson = checkPreviewMetadata($storedpreviewmetadatafile,$qurl)) {
-        echo 'Out of cache'."\n";
-    //var_dump($returnedjson);
-    } else {
-        $json = getPreviewMetadata($qurl);
-        echo 'Lookup and stored'."\n";
-        //var_dump($json);
-        storePreviewMetadata($storedpreviewmetadatafile,$json);
-    }
-} else {
-    //echo "<p>".$_SERVER['QUERY_STRING']."\n";
-    $sfn = explode('/', $_SERVER['PHP_SELF']);
-    $sfn = $sfn[count($sfn) - 1];
-    //echo $sfn;
-    if (array_key_exists('QUERY_STRING', $_SERVER) and $sfn == 'urlmetadatapreview.php') { // if empty from querystring give it some arbitrary url
-       $qurl = rawurldecode($_SERVER['QUERY_STRING']);
-        $qurl = preg_replace('/=$/', '', $qurl);
-        if ($qurl == '') {
-            $qurl = 'https://github.com/LeonardoCardoso/Link-Preview';
-        }
-        Internal_GerneratePreviewsTest($qurl);
-    } else { //not cli, or self, then just exit
-        $qurl = 'https://github.com/LeonardoCardoso/Link-Preview';
-        //echo "NOT CLI, NOT SELF";
-    }
-}
-*/
+
 function cURLcheckBasicFunctions()
 {
     if (! function_exists('curl_init') &&
@@ -84,7 +51,6 @@ function SF_GenerateMetadataPreview($inurl, $output = true)
         if (array_key_exists('description', $returnedjson)) {
             $ra['description'] = $returnedjson['description'];
         }
-
         return $ra;
     }
 }
@@ -113,16 +79,12 @@ function clean_trim($string)
 {
     $string = utf8_decode($string);
     $string = preg_replace("/\xa0|\xc2/", '', trim($string));
-
     //$string = htmlentities($string);
     return $string;
 }
 
 function storePreviewMetadata($file, $json)
 {
-    /*if(!file_exists($file)){
-        file_put_contents($file,"\n");
-    }*/
     $storedjson = [];
     $storedjson = (array) json_decode(file_get_contents($file));
     $storedjson[count($storedjson) + 1] = $json;
@@ -131,7 +93,6 @@ function storePreviewMetadata($file, $json)
 
 function checkPreviewMetadata($file, $qurl)
 {
-    //global $storedpreviewmetadatafile;
     $storedjson = [];
     $storedjson = (array) json_decode(file_get_contents($file));
     //var_dump($storedjson);
@@ -141,7 +102,6 @@ function checkPreviewMetadata($file, $qurl)
             return $record;
         }
     }
-
     return false;
 }
 
@@ -164,13 +124,8 @@ function getPreviewMetadata($qurl)
     if (! $contents) {
         return false;
     }
-    //echo '<pre>';echo($contents);echo '</pre>';
-
     // close curl resource to free up system resources
     curl_close($ch);
-
-    // attempt match all meta tags
-    //preg_match_all('/<met.[^<]*>/', $contents, $matches);
 
     // put $contents into DOM structure
     $dom = new DOMDocument();

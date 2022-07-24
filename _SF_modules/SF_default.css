@@ -6,7 +6,6 @@
     font-style: normal;
     font-display: swap;
 }
-
 @font-face {
     font-family: "et-book";
     src: url("extras/et-book/et-book-display-italic-old-style-figures/et-book-display-italic-old-style-figures.eot");
@@ -15,7 +14,6 @@
     font-style: italic;
     font-display: swap;
 }
-
 @font-face {
     font-family: "et-book";
     src: url("extras/et-book/et-book-bold-line-figures/et-book-bold-line-figures.eot");
@@ -24,7 +22,6 @@
     font-style: normal;
     font-display: swap;
 }
-
 @font-face {
     font-family: "et-book-roman-old-style";
     src: url("extras/et-book/et-book-roman-old-style-figures/et-book-roman-old-style-figures.eot");
@@ -33,7 +30,6 @@
     font-style: normal;
     font-display: swap;
 }
-
 .SF_breadcrumb_item a:hover {color: #0000FF;}
 .SF_breadcrumb_item, .SF_breadcrumb_item a:link, .SF_breadcrumb_item a:visited {margin: 0px 0px 0px 1px; color: #449944; text-decoration: none;}
 .SF_breadcrumb_line {margin: 0px 0px 0px 0px; font-size: 10pt !important;}
@@ -49,10 +45,8 @@
 .SF_footer_text {margin: 0px 0px 0px 0px; font-size: 10pt !important;}
 .SF_footerarea { margin-left:  1rem; margin-right:  1rem;}
 
-
 #SF_menuarea.SF_menuarea {height: 2rem;   line-height: 2.4rem !important; height:  auto;}
 #SF_menuarea.SF_menuarea a {font-size:  1.2rem;}
-
 
 .SF_menu_level_1 {display: inline; }
 .SF_menu_level_1 a:hover { margin: 0px 0px 0px 0px; background-color:  #BBBBBB !important; color: #FFF000 !important; display: inline; }
@@ -75,7 +69,6 @@
 .SF_map_level_5, .SF_map_level_5 a:link, .SF_map_level_5 a:visited {font-size: 8pt; color: #000000; margin: 1px 0px 1px 80px;}
 .SF_map_level_6, .SF_map_level_6 a:link, .SF_map_level_6 a:visited {font-size: 8pt; color: #000000; margin: 1px 0px 1px 95px;}
 
-
 .SF_offsite_link a:hover {color: #0000FF;}
 .SF_offsite_link, .SF_offsite_link a:link, .SF_offsite_link a:visited {color: #999999;}
 
@@ -95,31 +88,23 @@
 .SF_headerarea {  font-size: 1.2rem; }
 .SF_bodyarea {}
 
-
-
 /*.card-content {padding: 0.5rem; height: auto; display: block;}*/
 .bodygrid {margin: .1rem auto; display: grid; width: 95%;}
 .card {margin:  .1rem; padding: 1rem; display: block; }
 .card-content {padding: .1rem; display: inline-block; width: 75% !important; vertical-align: top; }
 
-
 .card-urlpreview p { margin: 0 10px 0 10px;  text-align: center; font-size: .9rem;}
 .card-urlpreview img {max-width: 100%; max-height: auto;}
 .card-urlpreview { margin-left:  1rem; margin-top: 5rem; padding: 5px 5px 5px 5px; border: 1px solid black; display: inline-block; max-width: 200px;}
 
-
 .pagemetabottomcard {padding: 1rem; height: auto; display: block;}
 
-#SF_contentarea p {
-
-
-}
+#SF_contentarea p {}
 
 /* lightbox gallery classes */
 .lbg-container {
   display:  block;
 }
-
 .lbg-image {
   width: 250px;
   float:  left;
@@ -132,7 +117,6 @@
   height:  auto;
   vertical-align: middle;
 }
-
 .lbg-caption {
   color:  black;
   text-align: center;
@@ -141,13 +125,9 @@
   color:  black;
   text-decoration: none;
 }
-
 .lbg-image:hover{
 border: 1px solid black;
-
 }
-
-
 
 a:active {}
 a:hover {/*hover doesn't work in nn4*/}
@@ -189,40 +169,7 @@ img .figure {
 	font-size:  .8rem;
 }
 
-/* a very basic 'reveal' just using CSS and checkbox
-in html just use: 
-<div class="container">
-Do show <input type="checkbox" id="check_id">
-	<ul>
-  	When checkbox checked this shows
-	</ul>
-</input>
-</div>
-ref:  https://www.sitepoint.com/implementing-show-moreless-functionality-with-pure-css/
-also see for future checkbox customisation: 
-https://dev.to/proticm/styling-html-checkboxes-is-super-easy-302o;
-*/
-input[type="checkbox"] ~ ul {
-  width: 100%;
-  display: none;
-}
 
-[type="checkbox"]:checked ~ ul {
-  display: block;
-} 
-
-[type="checkbox"]:checked + label:before {
-  content: '';
-}
-
-[type="checkbox"]:checked + label:after {
- content: '->Hide'; 
-}
-.container { 
-  position: relative; 
-  height: auto;
-  border-top: 0;
-}
 
 
  

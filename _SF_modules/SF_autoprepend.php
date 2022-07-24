@@ -5,29 +5,20 @@
 * This is what 'kicks it all off' for any given page
 *
 * @author Shaun Osborne (webmaster@cybergate9.net)
-*
 * @link https://github.com/Cybergate9/PHP-Siteframework
-*
 * @copyright Shaun Osborne, 2005-present
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
 */
 
 /**
  * Global 'soft' debug 'on' variable used by various functions in the framework
- *
  * 0=off
- *
  * 1=show main config files etc
- *
  * 2=show directory configuration processing
- *
  * 3=show info re breadcrumb and menu function calls
- *
  * -1 = cannot be controlled via querystring
- *
  * when called it creates a link to $defaultcssfile for the browser so
  * some CSS stuff is likely to be affected when this is turned on
- *
  * @global integer $sfdebug
  */
 $sfdebug = 0;
@@ -121,6 +112,7 @@ if (array_key_exists('print', $SF_qc)) {
     $dirconfigarray['footerfile'] = $defaultprintfooterfile;
     $dirconfigarray['cssfile'] = $defaultprintcssfile;
 }
+
 /* if we got sf_function=textonly then do that, end the cache and exit*/
 if (array_key_exists('textonly', $SF_qc)) {
     SF_GenerateTextOnlyHTML('http://'.$_SERVER['HTTP_HOST'].preg_replace("/[\?|\&]sf_f.*=t.*$/", '', $_SERVER['REQUEST_URI']));
@@ -160,9 +152,7 @@ if (isset($dirconfigarray['contentpp']) and (('yes' <=> $dirconfigarray['content
 
 /* if we got sf_function=nosf or a <!-- SF_Command:nosf:anything --> then just output contents, end the cache, and apexit()*/
 if (isset($SF_commands['no_sf']) or isset($SF_qc['nosf'])) {
-    if ($sfdebug >= 1) {
-        echo 'NO FRAMEWORK';
-    }
+    if ($sfdebug >= 1) {echo 'NO FRAMEWORK';}
     echo contents;
     /* end caching capture if its turned on */
     if ($SF_caching == true) {
@@ -173,9 +163,7 @@ if (isset($SF_commands['no_sf']) or isset($SF_qc['nosf'])) {
     }
 }
 
-/**
- * This include()'s the configured header file (config'd via the current 'config_dir' file)
- */
+/* This include()'s the configured header file (config'd via the current 'config_dir' file) */
 if (! (($dirconfigarray['headerfile'] <=> 'none') == 0)) {
     $ret = include $dirconfigarray['headerfile'];
     if (! $ret) {
@@ -183,9 +171,7 @@ if (! (($dirconfigarray['headerfile'] <=> 'none') == 0)) {
     }
 }
 
-/**
- * This outputs the actual content file via PHP_SELF depending on extension (.md or other (.html,.php))
- */
+/* This outputs the actual content file via PHP_SELF depending on extension (.md or other (.html,.php)) */
 $ext = pathinfo($SF_phpselfdrivepath, PATHINFO_EXTENSION);
 if ($ext == 'md') {
     $ret = SF_GeneratefromMarkdownURL($SF_phpselfdrivepath, true);
@@ -199,16 +185,13 @@ if ($ext == 'md') {
     }
 }
 
-/**
- * This include()'s the configured footer file (config'd via the current 'config_dir' file)
- */
+/* This include()'s the configured footer file (config'd via the current 'config_dir' file)*/
 if (! (($dirconfigarray['footerfile'] <=> 'none') == 0)) {
     $ret = include $dirconfigarray['footerfile'];
     if (! $ret) {
         SF_ErrorExit('SF_autoprepend.php', 'Failed to open "footer" file ['.$dirconfigarray['footerfile'].']');
     }
 }
-
 /* end caching capture if its turned on */
 if ($SF_caching == true) {
     $SF_fromcache = SF_cacheend();
