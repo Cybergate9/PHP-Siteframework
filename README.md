@@ -31,6 +31,7 @@ Version 2 adds:
 
 * defaultheader and defaultfooter now tidied up and shortened, but are specific to my website build for time being as it provides decent examples of 'real world use'
 
+* [et-book](https://github.com/edwardtufte/et-book/tree/gh-pages/et-book) added (in extras) and becomes default font through SF_default.css
 
 
 
