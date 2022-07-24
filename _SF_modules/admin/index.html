@@ -1,0 +1,143 @@
+<?php require_once("../SF_mainmodule.php"); 
+require_once("../SF_cache.php"); 
+?>
+
+<html lang="en">
+<head>
+<link href="../SF_default.css" rel="stylesheet" type="text/css">
+<style type="text/css" media="screen">
+  html {font-size: .85rem; }
+  table, th, td {border: 1px solid black; border-collapse: collapse; padding: 3px 3px 3px 3px;}
+  h1 {font-family: sans-serif;}
+  h3 {font-family: sans-serif;
+    font-size:  1.2rem;}
+
+</style>
+</head>
+
+<body>
+
+
+<h2><img src="<?php echo $SF_moduleswebpath;?>sflogo_sml.gif" style="width: 40px; height: 40px; margin-bottom: -10px;" />
+  Siteframework Configuration Information Page</h2>
+
+<hr size="1"/>
+
+<div class="cards">
+
+
+<div class="card">  
+<h3>Siteframework Internals</h3>
+<?php
+echo "<p>SERVER: ["; echo $_SERVER["SERVER_SOFTWARE"]; echo "]   [<a href=\"SF_phpinfo.php\">PHP Info</a>]</p>";
+echo "<p>SiteFramework Version:[$sfversion]</p>";
+echo "<p>from SF_mainconfig.php:</p><ul>";
+echo "<li>\$SF_sitewebpath = [$SF_sitewebpath]</li>";
+echo "<li>\$SF_moduleswebpath = [$SF_moduleswebpath]</li>";
+echo "<li>\$SF_modulesdrivepath = [$SF_modulesdrivepath]</li>";
+echo "<li>\$SF_sitetile = [$SF_sitetitle]</li></ul>";
+echo "<p>from SF_cacheconfig.php:</p><ul>";
+echo "<li>SF_Caching:[$SF_caching] (1=on, 0=off)</li>";
+echo '<li>$SF_cachequerystringexcluderegex = ['.print_r($SF_cachequerystringexcluderegex,true).']</li>';
+echo '<li>$SF_cacheexcludes = ['.print_r($SF_cacheexcludes,true).']</li></ul>';
+
+?>
+
+</div>
+
+<div class="card">
+  <div class="container">
+    Show opcache status <input type="checkbox" id="check_id">
+    <label>Show</label>
+
+    <ul>
+  <pre>
+<?php
+$res= opcache_get_status();
+print_r($res);
+?>
+</pre>
+</ul>
+</input>
+</div></div>
+
+
+
+
+
+<div class="card">  
+<hr size="1"/>
+<h3>Siteframework - Default Site Config Data </h3>
+<?php
+$filecontents=file($defaultsiteconfigfile);
+echo "from: $defaultsiteconfigfile<br/><table>";
+foreach($filecontents as $line)
+      {
+        echo '<tr>';
+        $linesplit=str_getcsv($line);
+        foreach($linesplit as $element)
+              {
+              echo '<td>';
+              if($element=='')echo '<p style="color: #AAAAAA">[no value in file]</p>'; else echo $element;
+              echo '</td>';
+              }
+        echo '</tr>';
+      }
+echo '</table>';
+?>
+
+</div>
+
+<div class="card">  
+<hr size="1"/>
+<h3>Siteframework - Default Dir Config Data </h3>
+<?php
+$filecontents=file($defaultdirconfigfile);
+echo "from: $defaultdirconfigfile<br/><table>";
+foreach($filecontents as $line)
+      {
+        echo '<tr>';
+        $linesplit=str_getcsv($line);
+        foreach($linesplit as $element)
+              {
+              echo '<td>';
+              if($element=='')echo '<p style="color: #AAAAAA">[no value in file]</p>'; else echo $element;
+              echo '</td>';
+              }
+        echo '</tr>';
+      }
+echo '</table>';
+?>
+</div>
+
+
+<div class="card">  
+  <hr size="1"/>
+<h3>Siteframework - Default Menu Data </h3>
+<?php
+
+echo "from: $defaultmenudatafile<br/><table>";
+foreach($menudataarray as $line)
+{
+  echo '<tr>';
+  $linesplit=explode(',',$line);
+  foreach($linesplit as $element)
+  {
+  echo '<td>';
+  echo $element;
+  echo '</td>';
+  
+  }
+  echo '</tr>';
+}
+echo '</table>';
+?>
+</div>
+
+
+
+</div>
+<hr size="1"/>
+</body>
+</html>
+

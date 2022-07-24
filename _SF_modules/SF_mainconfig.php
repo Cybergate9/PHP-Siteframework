@@ -2,14 +2,17 @@
 /**
 * This file is Siteframework's main configuration file
 *
-*
 * @author Shaun Osborne (webmaster@cybergate9.net)
-*
 * @link https://github.com/Cybergate9/PHP-Siteframework
-*
 * @copyright Shaun Osborne, 2005-present
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
 */
+
+/**
+ * Siteframework (as a whole) version number
+ */
+$sfversion = '2.1 (2022-07-24)';
+//error_reporting(1); /* only report errors */
 
 /****************************************************************************
 Global derived configuration values - shouldn't need to change these */
@@ -25,9 +28,10 @@ $SF_sitelogo = $SF_moduleswebpath.'images/sflogo_sml.jpg';
 /****************************************************************************
 Global default values - shouldn't need to change these */
 
-/* include parsedown and extra paths*/
-$SF_parsedownpath = $SF_modulesdrivepath.'vendor/erusev/parsedown/Parsedown.php';
-$SF_parsedownextrapath = $SF_modulesdrivepath.'vendor/erusev/parsedown-extra/ParsedownExtra.php';
+/* inclusions for markdown and previews */
+require $SF_modulesdrivepath.'vendor/erusev/parsedown/Parsedown.php';
+require $SF_modulesdrivepath.'vendor/erusev/parsedown-extra/ParsedownExtra.php';
+require $SF_modulesdrivepath.'SF_urlpreview.php';
 
 /* data files */
 $defaultmenudatafile = $SF_modulesdrivepath.'SF_default_config_menu.csv';

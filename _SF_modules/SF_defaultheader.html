@@ -3,75 +3,66 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- meta name="viewport" content="width=device-width, initial-scale=1" -->
   <link rel="icon" type="image/x-icon" href="/favicon/favicon-32x32.png">
-  <?php include($SF_modulesdrivepath."SF_defaultmetadata.html"); ?>
-  <title><?php echo SF_GetPageTitle(GPT_BREADCRUMB); ?></title>
-  <?php
-    if($sfdebug >=2) {var_dump($SF_commands);}
-    if(array_key_exists('lightbox',$SF_commands))
-      { 
-        echo '<link rel="stylesheet" href="'.$SF_moduleswebpath.'vendor/nicolafranchini/venobox/dist/venobox.min.css" />'."\n";
-        echo '<script src="'.$SF_moduleswebpath.'vendor/nicolafranchini/venobox/dist/venobox.min.js"></script>'."\n";
-      }
+  <?php 
+    include($SF_modulesdrivepath."SF_defaultmetadata.html");
+    echo '<title>'.SF_GetPageTitle(GPT_SITEnPAGE).'</title>';
+    if($sfdebug >=2) {echo 'SF_Commands:'; var_dump($SF_commands);}
+    if(isset($SF_commands['lightbox'])){ 
+        echo "\n".'<link rel="stylesheet" href="'.$SF_moduleswebpath.'vendor/nicolafranchini/venobox/dist/venobox.min.css"/>'."\n";
+        echo "\n".'<script src="'.$SF_moduleswebpath.'vendor/nicolafranchini/venobox/dist/venobox.min.js"></script>'."\n";
+    }
+    if(isset($SF_commands['hyperscript'])){ 
+        echo "\n".'<script src="https://unpkg.com/hyperscript.org@0.9.7"></script>';
+    }
+    if(isset($SF_commands['htmx'])){ 
+        echo "\n".'<script src="https://unpkg.com/htmx.org@1.8.0" integrity="sha384-cZuAZ+ZbwkNRnrKi05G/fjBX+azI9DNOkNYysZ0I/X5ZFgsmMiBXgDZof30F5ofc" crossorigin="anonymous"></script>';
+    }
+    
     /* to make CSS cascade/combine they must be titled the same */
-    // echo "<link href=\"".SF_GetDefaultCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>\n";
-     echo '<link href="'.SF_GetDefaultCSSFilename().'" rel="stylesheet" title="SF_CSS" type="text/css"/>'."\n";
-    // echo "<link href=\"".SF_GetCSSFilename()."\" rel=\"stylesheet\" title=\"SF_CSS\" type=\"text/css\"/>\n"; 
+    echo '<link href="'.SF_GetDefaultCSSFilename().'" rel="stylesheet" title="SF_CSS" type="text/css"/>'."\n";
     echo '<link href="'.SF_GetCSSFilename().'" rel="stylesheet" title="SF_CSS" type="text/css"/>'."\n";
-    echo '<meta property="og:url" content="'.$_SERVER['PHP_SELF'].'" >'."\n";
 
-    if(array_key_exists('title',$SF_commands))
-      { 
+    echo '<meta property="og:url" content="https://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'" >'."\n";
+    if(array_key_exists('title',$SF_commands)) { 
        echo '<meta property="og:title" content="'.$SF_commands['title'].'" />'."\n";
        echo '<meta property="og:description" content="'.$SF_commands['title'].'" />'."\n";
-      }
-    else
-      {
+    } else {
         echo '<meta property="og:title" content="Cybergate9.Net" />'."\n";
         echo '<meta property="og:description" content="Open the gate.. welcome to this dimension.." />'."\n";
-      }
+    }
     echo '<meta property="og:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/cg9-logoimage.jpg" />'."\n";
     echo '<meta property="og:image:url" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/cg9-logoimage.jpg" />'."\n";
     echo '<meta property="twitter:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/cg9-logoimage.jpg" />'."\n";
   ?>
 </head>
-
-<body class="cards">
-    <div id="SF_headerarea" class="card SF_headerarea">
-    <p class="SF_header_optionstext">
-    <!-- defines the accessibility access keys on every page -->
-    <a href="<?php echo $_SERVER['PHP_SELF']."#SF_content";?>" accesskey="S" ><img src="<?php echo $SF_moduleswebpath;?>1x1transparent.gif" style="border: 0px;" alt="accesskey S - Skip to content"/></a>
-    <a href="<?php echo $SF_sitewebpath;?>index.html" accesskey="1" ><img src="<?php echo $SF_moduleswebpath;?>1x1transparent.gif" style="border: 0px;" alt="accesskey 1 - Home"/></a>
-    <a href="<?php echo $SF_sitewebpath;?>accessibility.html" accesskey="0"><img src="<?php echo $SF_moduleswebpath;?>1x1transparent.gif" style="border: 0px;" alt="accesskey 0 - Accessibility Information"/></a>
-    [<a href="<?php echo SF_GetPrintURL(); ?>">Print Version</a>]&nbsp;&nbsp;
-    [<a href="<?php echo SF_GetTextOnlyURL() ?>">Text only</a>]&nbsp;&nbsp;
-    [<a href="<?php echo $SF_sitewebpath;?>accessibility.html">Accessibility</a>]&nbsp;&nbsp;
-    [<a href="<?php echo $SF_sitewebpath;?>sitemap.html" accesskey="3" >SiteMap</a>]
-    </p>
-    <div class="card">
-    <div style="display: block; float: left; padding-right: 15px;">
-      <img src="<?php echo $SF_sitewebpath;?>images/noderivs/cg9-logoimage.jpg" alt="Logo" style="width:  8rem;"/>
-    </div>
-    <div class="SF_header_heading">
-      
-       <?php echo SF_GetPageTitle(GPT_SITE); ?></div>
-       <p>Open the gate.. welcome to this dimension..</p>
+<body class="bodygrid">
+    <div id="SF_headerarea" class="SF_headerarea">
+        <p class="SF_header_optionstext">
+        <!-- defines the accessibility access keys on every page -->
+        <a href="<?php echo $_SERVER['PHP_SELF']."#SF_content";?>" accesskey="S" ><img src="<?php echo $SF_moduleswebpath;?>1x1transparent.gif" style="border: 0px;" alt="accesskey S - Skip to content"/></a>
+        <a href="<?php echo $SF_sitewebpath;?>index.html" accesskey="1" ><img src="<?php echo $SF_moduleswebpath;?>1x1transparent.gif" style="border: 0px;" alt="accesskey 1 - Home"/></a>
+        <a href="<?php echo $SF_sitewebpath;?>accessibility.html" accesskey="0"><img src="<?php echo $SF_moduleswebpath;?>1x1transparent.gif" style="border: 0px;" alt="accesskey 0 - Accessibility Information"/></a>
+        [<a href="<?php echo SF_GetPrintURL(); ?>">Print Version</a>]
+        [<a href="<?php echo SF_GetTextOnlyURL() ?>">Text only</a>]
+        [<a href="<?php echo $SF_sitewebpath;?>accessibility.html">Accessibility</a>]
+        [<a href="<?php echo $SF_sitewebpath;?>sitemap.html" accesskey="3" >SiteMap</a>]
+        </p>
+        <div class="SF_header_heading">
+           <img src="<?php echo $SF_sitewebpath;?>images/noderivs/cg9-logoimage.jpg" alt="Logo" />
+           <h1><?php echo SF_GetPageTitle(GPT_SITE); ?><br/>
+           <p>Open the gate.. welcome to this dimension..</p></h1>
+        </div>
     </div>
     <?php SF_GenerateNavigationMenu(); ?>
-    </div>
-    <div class="card">
-    </div>
-
 
     <div id="SF_bodyarea" class="SF_bodyarea">
 
 <!-- SF_Command:content:begins -->
 
-    <div id="SF_contentarea" class="card">
-    
+    <div id="SF_contentarea">
 
-    <!-- SwishCommand index -->
     <a name="SF_content"></a>
 
 
