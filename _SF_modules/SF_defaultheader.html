@@ -9,7 +9,7 @@
     include($SF_modulesdrivepath."SF_defaultmetadata.html");
     echo '<title>'.SF_GetPageTitle(GPT_SITEnPAGE).'</title>';
     if($sfdebug >=2) {echo 'SF_Commands:'; var_dump($SF_commands);}
-    if(isset($SF_commands['lightbox'])){ 
+    if(isset($SF_commands['lightbox']) or isset($SF_commands['venobox'])){ 
         echo "\n".'<link rel="stylesheet" href="'.$SF_moduleswebpath.'vendor/nicolafranchini/venobox/dist/venobox.min.css"/>'."\n";
         echo "\n".'<script src="'.$SF_moduleswebpath.'vendor/nicolafranchini/venobox/dist/venobox.min.js"></script>'."\n";
     }

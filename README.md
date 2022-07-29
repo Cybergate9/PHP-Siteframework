@@ -25,15 +25,15 @@ Version 2 adds:
 
 		* scf_img (do html image rendering out of standard images/web500 dir etc)
 
-		* scf_lbimg (do html image rendering out of standard images/web500 dir etc)
+		* scf_lbimg (do a javascript, lightbox image rendering out of standard images/web500 dir etc, req. yaml lightbox:yes, shortcodes: yes)
 
-		* scf_lbgallery (do a javascript, lightbox'ed image gallery with exif out of standard images/web500 dir etc.)
+		* scf_lbgallery (do a javascript, lightbox'ed image gallery with exif out of standard images/web500 dir etc. req. yaml lightbox:yes, shortcodes: yes)
 
 * SF_urlpreviews.php provides ability to look up metadata for 'refurl's, store them, and display them
 
 * javascript libraries ([venobox](https://veno.es/venobox/), [htmx](https://htmx.org/), [hyperscript](https://hyperscript.org/)) can easily be included via defaultheader.html by setting in yaml front matter, or SF_commands
 
-* defaultheader and defaultfooter now tidied up and shortened, but are specific to my website build for time being as it provides decent examples of 'real world use'
+* defaultheader and defaultfooter now tidied up and shortened, but still have some specifics from my website build for time being as it provides decent examples of 'real world use'
 
 * [et-book](https://github.com/edwardtufte/et-book/tree/gh-pages/et-book) added (in extras) and becomes default font through SF_default.css
 
