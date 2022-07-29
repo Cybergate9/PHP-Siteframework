@@ -1,0 +1,9 @@
+ErrorDocument 404 /sf_dist/errorpages/404.html
+
+# this ensures all the SF modules are available in include path (fix the pear path for your installation)
+php_value include_path .;/sf_dist/_SF_modules/;/usr/local/share/pear/;/usr/local/Cellar/php/8.1.7/share/php/pear/
+# these are the auto append pre-pend directives
+php_value auto_prepend_file /Users/Shaun/dev/httpd/public_html/sf_dist/_SF_modules/SF_autoprepend.php
+# these are optional and recommended during development
+php_flag display_errors  On
+# php_value error_reporting 2047

@@ -1,8 +1,4 @@
 Menu Set name,Menu Subset name,Title,Order,URL (from SF (sub)siteroot - should not contain leading slashes),end
 site,_toplevel,Home,0,index.html,e
-site,_toplevel,Rebuild22,1,rebuild2022.md,e
-site,_toplevel,Witterings,2,blog/witterings.md,e
-site,blog,Commentary,2.1,blog/index.php,e
-site,blog,Shorts,2.2,blog/shorts.php,e
-site,blog,Essays,2.3,blog/essays.php,e
-site,_toplevel,Ephemera,3,ephemera/index.md,e
+site,_toplevel,Demo1,1,demo1/index.html,e
+site,_toplevel,Demo2,2,demo2/index.html,e

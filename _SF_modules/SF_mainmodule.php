@@ -13,16 +13,26 @@
 * CHANGELOG in SF_changelog.md
 *
 * @author Shaun Osborne (webmaster@cybergate9.net)
+*
 * @link https://github.com/Cybergate9/PHP-Siteframework
+*
 * @copyright Shaun Osborne, 2005-present
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
-* @version 2.1 (2022-07-24)
+*
+* @version 2.2 (2022-07-29)
 */
 
 // bring in global paths and default values for variables, order is important
-if (! isset($sfdebug)) { $sfdebug = 0; }
+if (! isset($sfdebug)) {
+    $sfdebug = 0;
+}
 require 'SF_localconfig.php';
 require 'SF_mainconfig.php';
+
+/* inclusions for markdown and previews */
+require $SF_modulesdrivepath.'vendor/erusev/parsedown/Parsedown.php';
+require $SF_modulesdrivepath.'vendor/erusev/parsedown-extra/ParsedownExtra.php';
+require $SF_modulesdrivepath.'SF_urlpreview.php';
 
 /****************************************************************************
 Global variables */
@@ -46,7 +56,9 @@ define('GPT_SITE', 4);
 
 /*************  BEGINNING OF SF_mainmodule.php 'main()  ****/
 
-if ($sfdebug >= 1) {SF_DebugMsg($SF_modulesdrivepath.'SF_mainmodule.php, Version: ['.$sfversion.'] loaded');}
+if ($sfdebug >= 1) {
+    SF_DebugMsg($SF_modulesdrivepath.'SF_mainmodule.php, Version: ['.$sfversion.'] loaded');
+}
 SF_PageInitialise();
 
 /*************  END OF SF_mainmodule.php 'main()'   *****/
@@ -58,6 +70,7 @@ SF_PageInitialise();
  * SF_LoadDirConfigData() (which determines menudata, css, header and footer to load)
  * SF_LoadMenuData() to initialise everything for this page (menu wise)
  * Also
+ *
  * @see SF_LoadMenuData
  * @see SF_LoadDirConfigData
  * @see SF_LoadSiteConfigData
@@ -96,6 +109,7 @@ function SF_LoadSiteConfigData()
         if ($sfdebug >= 1) {
             SF_DebugMsg('WARNING: SF_LoadSiteConfigData() has already run - skipping');
         }
+
         return;
     }
     $adjustedSFsitewebpath = removeleadingslash($SF_sitewebpath);
@@ -184,7 +198,10 @@ function SF_LoadDirConfigData()
     $filelinesarray = [];
 
     if (count($dirconfigarray) >= 1) {
-        if ($sfdebug >= 1) { SF_DebugMsg('WARNING: SF_LoadDirConfigData() has already run - skipping'); }
+        if ($sfdebug >= 1) {
+            SF_DebugMsg('WARNING: SF_LoadDirConfigData() has already run - skipping');
+        }
+
         return;
     }
     if (isset($siteconfigarray['dirconfigfile'])) {
@@ -295,7 +312,9 @@ function SF_LoadDirConfigData()
         $dirconfigarray['footerfile'] = $defaultfooterfile;
     }
 
-    if ($sfdebug >= 1) { SF_DebugMsg('SF_LoadDirConfigData('.print_r($dirconfigarray, true).')');}
+    if ($sfdebug >= 1) {
+        SF_DebugMsg('SF_LoadDirConfigData('.print_r($dirconfigarray, true).')');
+    }
 }
 
 /**
@@ -328,14 +347,21 @@ function SF_LoadMenuData()
     $menukey = $dirconfigarray['menukey'];
 
     if (count($menudataarray) >= 1) {
-        if ($sfdebug >= 1) {SF_DebugMsg('WARNING: SF_LoadMenuData() has already run - skipping');}
+        if ($sfdebug >= 1) {
+            SF_DebugMsg('WARNING: SF_LoadMenuData() has already run - skipping');
+        }
+
         return;
     }
 
-    if ($sfdebug >= 1) {SF_DebugMsg("SF_LoadMenuData($datafile,$menu,$menukey)");}
+    if ($sfdebug >= 1) {
+        SF_DebugMsg("SF_LoadMenuData($datafile,$menu,$menukey)");
+    }
 
     $filelinesarray = file($datafile);
-    if (! $filelinesarray) {SF_ErrorExit('SF_LoadMenuData()', 'no data from menu file '.$datafile);}
+    if (! $filelinesarray) {
+        SF_ErrorExit('SF_LoadMenuData()', 'no data from menu file '.$datafile);
+    }
 
     /*get the toplevel and requested level values into new array keyed by order value from csv file*/
     $filelinesarray = str_replace('"', '', $filelinesarray);  /* remove any "'s from csv data */
@@ -344,7 +370,9 @@ function SF_LoadMenuData()
 
     foreach ($menudataarray as $key=>$item) {
         $item = str_replace(',/', ',', $item); /* this is a bit of a cludge to remove leading slashes in paths */
-        if ($sfdebug >= 2) {SF_DebugMsg("SF_LoadMenuData($key, $item)");}
+        if ($sfdebug >= 2) {
+            SF_DebugMsg("SF_LoadMenuData($key, $item)");
+        }
         $subitem = explode(',', trim($item));
         if (count($subitem) <= 1) {
             continue;
@@ -366,7 +394,9 @@ function SF_LoadMenuData()
 
     $tpath = $SF_sitewebpath.$siteconfigarray['dirconfigpath'];
     $currentpath = preg_replace("@^$tpath@i", '', $_SERVER['PHP_SELF']);
-    if ($sfdebug >= 2) {SF_DebugMsg('SF_LoadMenuData(currentpath:'.$currentpath.')');}
+    if ($sfdebug >= 2) {
+        SF_DebugMsg('SF_LoadMenuData(currentpath:'.$currentpath.')');
+    }
     /*find what order number we are at e.g. 1, 1.1, 1.3.1
     first pass, this will match exacts or dir+index.htm(l)'s or dir+filename+.anything.htm(l)*/
     foreach ($currentmenuarray as $item) {
@@ -436,6 +466,7 @@ function SF_LoadMenuData()
  * Menu block is surrounded by a <div id="SF_menuarea" class="SF_menuarea">
  * Menu level 1's are tagged as <p class="SF_menu_level_1">
  * Menu level 2's are tagged as <p class="SF_menu_level_2">
+ *
  * @see SF_LoadMenuData()
  *
  * @param bool mixed controls whether we tag what menuitem is selected true=on [default], false=off (CSS=SF_menu_level_1_highlight and SF_menu_level_2_highlight)
@@ -470,7 +501,9 @@ function SF_GenerateNavigationMenu($menuhighlight = true, $dooffsitelinktags = t
                 }
     }
 
-    if ($sfdebug >= 3) {SF_DebugMsg("SF_GenerateNavigationMenu($menu,$menukey,hl:$menuhighlight,mi:$menuitemidentifier)<br/>");}
+    if ($sfdebug >= 3) {
+        SF_DebugMsg("SF_GenerateNavigationMenu($menu,$menukey,hl:$menuhighlight,mi:$menuitemidentifier)<br/>");
+    }
 
     // create navigation menu div
     if ($showonlylevel == 0) {
@@ -521,6 +554,7 @@ function SF_GenerateNavigationMenu($menuhighlight = true, $dooffsitelinktags = t
 /**
  * Output breadcrumb html for current page
  * CSS styles are: SF_breadcrumbarea, SF_breadcrumb_line, SF_breadcrumb_title and SF_breadcrumb_item
+ *
  * @param  string  $breadcrumbleadtext the lead text for the breadcrumbline
  * @param  string  $breadcrumbseparator  the separator between each breadcrumb item
  * @param  bool  $output output (true) html or return result from function as string (false)
@@ -620,7 +654,8 @@ function SF_GenerateBreadCrumbLine($breadcrumbleadtext = 'You are in: ', $breadc
           if ($x++ < count($breadcrumbs)) {
               $breadcrumbstring = $breadcrumbstring.$breadcrumbseparator;
           }
-        }
+      }
+
     return $breadcrumbstring;
     }
 }
@@ -632,6 +667,7 @@ function SF_GenerateBreadCrumbLine($breadcrumbleadtext = 'You are in: ', $breadc
  * GPT_SITEnPAGE = $SFsitetitle + Current Page Title
  * GPT_BREADCRUMB = current breadcrumb (as determined via menu data) line separated by '|'s
  * GPT_SITE+BREADCRUMB = $SFsitetitle + current breadcrumb
+ *
  * @param int GPT_PAGE, GPT_SITEnPAGE, GPT_BREADCRUMB, GPT_SITE+BREADCRUMB
  */
 function SF_GetPageTitle($titletype = GPT_BREADCRUMB)
@@ -678,6 +714,7 @@ function SF_GetCSSFilename()
     if ($sfdebug >= 1) {
         SF_DebugMsg('SF_GetCSSFilename('.$dirconfigarray['cssfile'].')');
     }
+
     return $dirconfigarray['cssfile'];
 }
 
@@ -688,6 +725,7 @@ function SF_GetDefaultCSSFilename()
 /****************************************************************************/
 {
     global $defaultcssfile;
+
     return $defaultcssfile;
 }
 
@@ -783,6 +821,7 @@ function SF_GenerateSiteMap($showlevels = false, $levelstoshow = 6, $displayleve
 /**
  * Global error exit function for Siteframework
  * Outputs CSS link, Error text supplied and does a hard exit
+ *
  * @param string intended to identify who called the exit, file or function
  * @param string error message you want to output with the exit
  */
@@ -798,6 +837,7 @@ function SF_ErrorExit($caller = 'nocaller', $msg = 'nomsg')
 /**
  * Global debug message function for Siteframework
  * Outputs CSS link, and debug text you supply
+ *
  * @param string debug message you want to output
  */
 function SF_DebugMsg($msg = 'nomsg')
@@ -834,7 +874,9 @@ function SF_GenerateContentFromURL($url, $returncontents = false)
     $url = sfnormaliseurl($url, 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
 
     $contents = file_get_contents($url);
-    if (! $contents) {SF_ErrorExit('SF_generateContentFromURL', 'Failed to open file ['.$url.']'); }
+    if (! $contents) {
+        SF_ErrorExit('SF_generateContentFromURL', 'Failed to open file ['.$url.']');
+    }
     /* process $SF_commands we find in $url */
     preg_match_all("@<\!-- SF_Command(.*?) -->@i", $contents, $matches);
     foreach ($matches[1] as $procentries) {
@@ -873,7 +915,7 @@ function SF_GenerateContentFromURL($url, $returncontents = false)
  * @param output a 'Read More' link false=no, true=yes
  * @param return value is contents of url, else return true;
  */
-function SF_GeneratefromMarkdownURL($url, $title = true, $summaryonly = false, $returnreadmorelink = false, $returncontents = false)
+function SF_GeneratefromMarkdownURL($url, $title = true, $summaryonly = false, /*$returnreadmorelink = false,*/ $returncontents = false)
 /****************************************************************************/
 {
     global $SF_sitedrivepath;
@@ -930,11 +972,6 @@ function SF_GeneratefromMarkdownURL($url, $title = true, $summaryonly = false, $
         }
         $snippet = substr($snippet, 0, $summaryonly);
         $output = $output.'<p>'.$snippet.'...</p>';
-        if (! $returnreadmorelink) {
-            $output = $output.'  [ <a href="'.$_SERVER['PHP_SELF'].'?p='.substr($url, 5, strlen($url)).'"">Read more..</a> ]  ';
-        } else {
-            $SF_commands['readmorelink'] = '  [ <a href="'.$url.'"">Read more..</a> ]  ';
-        }
     } else {
         $output = $output.$Parsedown->text($md);
         if ($title and isset($SF_commands['title'])) { // close out card divs if we're doing a full page with title etc
@@ -944,7 +981,7 @@ function SF_GeneratefromMarkdownURL($url, $title = true, $summaryonly = false, $
             $output = $output."\n".'<div class="card-urlpreview">';
             if (($res = SF_GenerateMetadataPreview($SF_commands['refurl'], false)) == false) {
                 $output = $output.'<p style="color: #FF0000;">Error:[Preview Meta lookup failed]</p>';
-                $output = $output.'<p><a href="'.$SF_moduleswebpath.'extras/urlmetadatapreview.php?'.$SF_commands['refurl'].'">[Check]</a><p>';
+                $output = $output.'<p><a href="'.$SF_moduleswebpath.'/SF_urlpreview.php?'.$SF_commands['refurl'].'">[Check]</a><p>';
             } else {
                 $output = $output.'<p><img src="'.$res['image'].'" width="200"/></p>';
                 $output = $output.'<p>'.$res['title'].'</p>';
@@ -961,6 +998,7 @@ function SF_GeneratefromMarkdownURL($url, $title = true, $summaryonly = false, $
         return (string) $output;
     } else {
         echo $output;
+
         return true;
     }
 }
@@ -1011,6 +1049,7 @@ function SF_ShortCodeProcessor($string)
         }
     }
     $command = $parts_array = $matches = $commandparts = $convertto = ''; //clear memory
+
     return $string;
 }
 
@@ -1034,6 +1073,15 @@ function scf_img($inarray)
     if (! isset($inarray['srcsize'])) {
         $inarray['srcsize'] = '500';
     }
+    if (isset($inarray['dir'])) {
+        $inarray['srcsize'] = '';
+    }
+    if (! isset($inarray['dir'])) {
+        $inarray['dir'] = 'images/web500';
+    }
+    if (! isset($inarray['dirbig'])) {
+        $inarray['dirbig'] = 'images/web2000';
+    }
     if (! isset($inarray['width'])) {
         $inarray['width'] = '';
     }
@@ -1045,10 +1093,11 @@ function scf_img($inarray)
     }
     $convertto = '';
     if (isset($inarray['src'])) {
-        $convertto = $convertto.'<figure><a href="'.$SF_sitewebpath.'images/web2000/'.$inarray['src'].'" title="'.$inarray['caption'].'">';
-        $convertto = $convertto.'<img src="'.$SF_sitewebpath.'images/web'.$inarray['srcsize'].'/'.$inarray['src'].'" width="'.$inarray['width'].'" /></a>';
+        $convertto = $convertto.'<figure><a href="'.$SF_sitewebpath.$inarray['dirbig'].'/'.$inarray['src'].'" title="'.$inarray['caption'].'">';
+        $convertto = $convertto.'<img src="'.$SF_sitewebpath.$inarray['dir'].'/'.$inarray['src'].'" width="'.$inarray['width'].'" /></a>';
         $convertto = $convertto.'<figcaption>'.$inarray['caption'].'</figcaption></figure>';
     }
+
     return $convertto;
 }
 
@@ -1060,11 +1109,23 @@ function scf_lbimg($inarray)
         $imgs = explode(',', $inarray['src']);
         $caps = explode(',', $inarray['caption']);
         //echo '<br/>';var_dump($imgs);
+        $dclass = 'lbg-container';
+        $convertto = $convertto.'<div class="'.$dclass.'">'."\n";
         foreach ($imgs as $key=>$img) {
-            $convertto = $convertto.'<a href="'.$SF_sitewebpath.'images/web2000/'.$img.'" class="venobox-lbgall" data-gall="gallery-'.count($imgs) + count($caps).'" title="'.$caps[$key].'"><img src="'.$SF_sitewebpath.'images/web500/'.$img.'" /></a>';
+            $exif = SF_getexif('storedexifmetadata.json', $img);
+            if ($exif) {
+                $exifstring = '['.$exif['make'].', '.$exif['mm'].'mm, f:'.$exif['fstop'].', s:'.$exif['shutter'].', iso:'.$exif['iso'].']';
+            } else {
+                $exifstring = '';
+            }
+            $convertto = $convertto.'<div class="lbg-image"><a href="'.$SF_sitewebpath.'images/web2000/'.$img.'" class="venobox-lbgall" data-gall="gallery-'.count($imgs) + count($caps).'" title="'.$caps[$key].'<br/>'.$exifstring.'"><img src="'.$SF_sitewebpath.'images/web500/'.$img.'" />';
+            $convertto = $convertto.'<div class="lbg-caption">'.$caps[$key].'</div>'."\n";
+            $convertto = $convertto.'</a></div>'."\n";
         }
+        $convertto = $convertto.'</div>'."\n";
         $convertto = $convertto.'<script type="text/javascript">'."new VenoBox({selector: '.venobox-lbgall', border: '2px', bgcolor: '#666666', maxWidth: '95%', numeration: true, infinigall: true, share: false,});</script>";
     }
+
     return $convertto;
 }
 
@@ -1092,13 +1153,14 @@ function scf_lbgallery($inarray)
             }
             $convertto = $convertto.'<div class="lbg-image"><a href="'.$SF_sitewebpath.'images/web2000/'.$img.'" class="venobox-lbgall" data-gall="gallery-'.count($imgs) + count($caps).'" title="'.$caps[$key].'<br/>'.$exifstring.'">'."\n";
             $convertto = $convertto.'<img src="'.$SF_sitewebpath.'images/web500/'.$img.'"/>'."\n";
-            $convertto = $convertto.'<div class="lbg-caption">'.$caps[$key].'</div>'."\n";
+            $convertto = $convertto.'<div class="lbg-image">'.$caps[$key].'</div>'."\n";
             $convertto = $convertto.'</a></div>'."\n";
         }
 
         $convertto = $convertto.'</div>'."\n";
         $convertto = $convertto.'<script type="text/javascript">'."new VenoBox({selector: '.venobox-lbgall', border: '2px', bgcolor: '#666666', maxWidth: '97%', numeration: true, infinigall: true, share: false,});</script>";
     }
+
     return $convertto;
 }
 /*
@@ -1133,6 +1195,7 @@ function simpleyaml($inarray)
             }
         }
     }
+
     return $yaml;
 }
 
@@ -1150,6 +1213,7 @@ function SF_GenerateEmailLink($emailaddress, $linktext, $class)
     $result = preg_match("/^.*\@/", $emailaddress, $matches);
     if (! $result) {
         echo '[invalid email address]';
+
         return;
     }
     $name = $matches[0];
@@ -1158,6 +1222,7 @@ function SF_GenerateEmailLink($emailaddress, $linktext, $class)
     $result = preg_match("/\@.*$/", $emailaddress, $matches);
     if (! $result) {
         echo '[invalid email address]';
+
         return;
     }
     $domain = $matches[0];
@@ -1204,6 +1269,7 @@ function str_convert_htmlentities($str)
     $str = mb_convert_encoding($str, 'UTF-32', 'UTF-8');
     $t = unpack('N*', $str);
     $t = array_map(function ($n) { return "&#$n;"; }, $t);
+
     return implode('', $t);
 }
 
@@ -1231,6 +1297,7 @@ function SF_GetPageModifiedDate($filename = '', $dateformat = 'jMY h:i')
     if ($filename == '') {
         $filename = $SF_documentroot.$_SERVER['PHP_SELF'];
     }
+
     return date($dateformat, filemtime($filename));
 }
 
@@ -1262,6 +1329,7 @@ function SF_GetPrintURL()
     } else {
         $sep = '?';
     }
+
     return $_SERVER['REQUEST_URI'].$sep.$printlayoutqs;
 }
 
@@ -1295,6 +1363,7 @@ function getpath($urlstring)
     for ($x = strlen($urlstring) - 1; $x >= 0 and $urlstring[$x] != '/'; $x--) {
         $urlstring[$x] = ' ';
     }
+
     return trim($urlstring);
 }
 
@@ -1308,6 +1377,7 @@ function removetrailingslash($pathstring)
     if ($pathstring[$pathstringlength] == '/') {
         $pathstring[$pathstringlength] = ' ';
     }
+
     return trim($pathstring);
 }
 
@@ -1320,6 +1390,7 @@ function removeleadingslash($pathstring)
     if ($pathstring[0] == '/') {
         $pathstring[0] = ' ';
     }
+
     return trim($pathstring);
 }
 
@@ -1346,6 +1417,7 @@ function previousdir($pathstring)
         $pathstring[$x] = ' ';
     }
     $pathstring = trim($pathstring); /* remove whitepspace */
+
     return $pathstring;
 }
 
@@ -1368,11 +1440,13 @@ function getpreviouspath($urlstring)
     for ($x = strlen($urlstring) - 1; $urlstring[$x] != '/' and $x >= 0; $x--) {
         $urlstring[$x] = ' ';
     }
+
     return trim($urlstring);
 }
 
 /**
  * Create a useable file or HTTP reference from whatever we are passed
+ *
  * @param string the reference we want to normalise
  * @param string the url we are currently at
  */
@@ -1406,6 +1480,7 @@ function sfnormaliseurl($url_ref, $url)
     } /* end of else */
     $adjusted_url = preg_replace('@#.*$@', '', $adjusted_url); /* remove anything on end of url after a # */
     $adjusted_url = preg_replace("@\?.*$@", '', $adjusted_url); /* remove anything on end of url after a ? */
+
     return $adjusted_url;
 }
 
@@ -1499,5 +1574,6 @@ function rewriteurlsfortextonly($inputhtml)
         "$1$2?$textonlyqs$3",    /* now append onto our urls */
     ];
     $resulthtml = preg_replace($search, $replace, $inputhtml);
+
     return $resulthtml;
 }

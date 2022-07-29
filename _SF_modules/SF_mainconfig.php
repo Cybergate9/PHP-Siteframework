@@ -3,7 +3,9 @@
 * This file is Siteframework's main configuration file
 *
 * @author Shaun Osborne (webmaster@cybergate9.net)
+*
 * @link https://github.com/Cybergate9/PHP-Siteframework
+*
 * @copyright Shaun Osborne, 2005-present
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
 */
@@ -11,8 +13,11 @@
 /**
  * Siteframework (as a whole) version number
  */
-$sfversion = '2.1 (2022-07-24)';
-//error_reporting(1); /* only report errors */
+$sfversion = '2.2';
+$sfversiondate = '(2022-07-29)';
+
+error_reporting(1); /* only report errors */
+date_default_timezone_set('Australia/Adelaide');
 
 /****************************************************************************
 Global derived configuration values - shouldn't need to change these */
@@ -23,15 +28,10 @@ $SF_sitedrivepath = $SF_documentroot.$SF_sitewebpath;
 $SF_subsitewebpath = $SF_sitewebpath;
 $SF_subsitedrivepath = $SF_sitedrivepath;
 $SF_phpselfdrivepath = $SF_documentroot.$_SERVER['PHP_SELF'];
-$SF_sitelogo = $SF_moduleswebpath.'images/sflogo_sml.jpg';
+$SF_sitelogo = $SF_moduleswebpath.'sflogo_sml.jpg';
 
 /****************************************************************************
 Global default values - shouldn't need to change these */
-
-/* inclusions for markdown and previews */
-require $SF_modulesdrivepath.'vendor/erusev/parsedown/Parsedown.php';
-require $SF_modulesdrivepath.'vendor/erusev/parsedown-extra/ParsedownExtra.php';
-require $SF_modulesdrivepath.'SF_urlpreview.php';
 
 /* data files */
 $defaultmenudatafile = $SF_modulesdrivepath.'SF_default_config_menu.csv';
@@ -56,10 +56,7 @@ $defaulttextonlycssfile = $SF_moduleswebpath.'SF_textonly.css';
 
 $menutoplevelidentifier = '_toplevel';
 
-/* just in case we've come directly here (not via autoprepend) then set sfdebug to 0 if it's not set already */
-if (! isset($sfdebug)) {
-    $sfdebug = 0;
-}
+$storedpreviewmetadatafile = $SF_sitedrivepath.'storedpreviewsmetadata.json';
 
 if ($sfdebug >= 3) {
     SF_DebugMsg($SF_modulesdrivepath.'SF_mainconfig.php loaded');

@@ -1,5 +1,44 @@
 <?php
 
+$updebug = 0;
+
+if (isset($_SERVER['QUERY_STRING']) and preg_match('/^http/', $_SERVER['QUERY_STRING'])) {
+    $updebug = 1;
+    include 'SF_localconfig.php';
+    include 'SF_mainconfig.php';
+    //global $SF_sitedrivepath;
+    $inurl = $_SERVER['QUERY_STRING'];
+    updmsg('(Direct) Looking up: '.$inurl.'<br/>', false);
+    $json = '';
+    $returnedjson = [];
+    $result = checkPreviewMetadata($inurl);
+    updmsg('check result: ', $result);
+    if (! $result) {
+        $json = getPreviewMetadata($inurl);
+        updmsg('get result: ', $json);
+        $returnedjson = $json;
+    } else {
+        $returnedjson = (array) $result;
+    }
+    if ($json) {
+        $result = storePreviewMetadata($json);
+        updmsg('store result: ', $result);
+    } else {
+        updmsg('store result: No store ', false);
+        //return false;
+    }
+}
+
+function updmsg($string, $value)
+{
+    global $updebug;
+    if ($updebug > 0) {
+        echo '[debug]:'.$string;
+        var_dump($value);
+        echo '<br/>';
+    }
+}
+
 function cURLcheckBasicFunctions()
 {
     if (! function_exists('curl_init') &&
@@ -14,23 +53,41 @@ function cURLcheckBasicFunctions()
 
 function SF_GenerateMetadataPreview($inurl, $output = true)
 {
-    global $SF_sitedrivepath;
-    $storedpreviewmetadatafile = $SF_sitedrivepath.'storedpreviewmetadata.json';
-    if (! file_exists($storedpreviewmetadatafile)) {
+    global $updebug;
+    global $storedpreviewmetadatafile;
+    global $sfdebug;
+
+    /*if (! file_exists($storedpreviewmetadatafile)) {
         file_put_contents($storedpreviewmetadatafile, "\n");
-    }
+    }*/
 
-    $returnedjson = checkPreviewMetadata($storedpreviewmetadatafile, $inurl); //already stored?
-    if ($returnedjson) {
-        //echo 'OOC: '; var_dump($returnedjson);
-        $returnedjson = (array) $returnedjson; //yes, convert to array and use
+    updmsg('Looking up: '.$inurl.'<br/>', false);
+    $json = '';
+    $returnedjson = [];
+    $result = checkPreviewMetadata($inurl);
+    updmsg('check result: ', $result);
+    if (! $result) {
+        $json = getPreviewMetadata($inurl);
+        updmsg('get result: ', $json);
+        $returnedjson = $json;
     } else {
-        $returnedjson = getPreviewMetadata($inurl); //no, go look it up
-        //echo 'L&S: '; var_dump($returnedjson);
-        storePreviewMetadata($storedpreviewmetadatafile, $returnedjson); //store it
-        $returnedjson = (array) $returnedjson; // convert to array and use it
+        $returnedjson = (array) $result;
+    }
+    if ($json) {
+        $result = storePreviewMetadata($json);
+        updmsg('store result: ', $result);
+    } else {
+        updmsg('store result: No store ', false);
+        //return false;
     }
 
+    if ($returnedjson == false) { // if we totally fail, warn and exit
+        if ($sfdebug > 0 or $updebeg > 0) {
+            Output_line('WARNING[SF_GenerateMetadataPreview()]: Metadata lookup failed');
+        }
+
+        return false;
+    }
     if ($output) {
         echo '<div class="metacard">';
         Output_line('FromURL : '.$returnedjson['url']);
@@ -48,9 +105,10 @@ function SF_GenerateMetadataPreview($inurl, $output = true)
         $ra['url'] = $returnedjson['url'];
         $ra['title'] = $returnedjson['title'];
         $ra['image'] = $returnedjson['image'];
-        if (array_key_exists('description', $returnedjson)) {
+        if (isset($returnedjson['description'])) {
             $ra['description'] = $returnedjson['description'];
         }
+
         return $ra;
     }
 }
@@ -79,29 +137,84 @@ function clean_trim($string)
 {
     $string = utf8_decode($string);
     $string = preg_replace("/\xa0|\xc2/", '', trim($string));
-    //$string = htmlentities($string);
+    $string = utf8_encode($string);
+    $string = htmlentities($string);
+
     return $string;
 }
 
-function storePreviewMetadata($file, $json)
+function storePreviewMetadata($json)
 {
+    global $updebug;
+    global $storedpreviewmetadatafile;
+
     $storedjson = [];
-    $storedjson = (array) json_decode(file_get_contents($file));
-    $storedjson[count($storedjson) + 1] = $json;
-    file_put_contents($file, json_encode($storedjson));
+    $json['dtz'] = date('Y-m-d,G:i,O'); //timestamp this data
+
+    $result = file_get_contents($storedpreviewmetadatafile);
+    //echo '<br/><br/>$result:'; print_r($result); echo '<br/><br/>';
+    $storedjson = json_decode($result, true);
+    //echo '<br/><br/>$storedjson:'; print_r($storedjson); echo '<br/><br/>';
+    if ($result === null) {
+        return false;
+    }
+    if (strlen($result) < 2) { // deal with newly initialised file
+        $storedjson[1] = $json;
+    } else { // otherwise concat json
+        $storedjson = json_decode($result, true);
+        //var_dump($storedjson);
+        //$result=''; //clear
+        $storedjson[count($storedjson) + 1] = $json;
+    }
+
+    return file_put_contents($storedpreviewmetadatafile, json_encode($storedjson));
+
+    /*$hdl = fopen($storedpreviewmetadatafile,"a+");
+    if($hdl === false){
+        return false;
+    }
+    $res = fwrite($hdl, json_encode($storedjson));
+    if($res === false){
+        return false;
+    }
+    $res = fclose($hdl);
+    if($res === false){
+        return false;
+    }
+*/
+    //return true;
 }
 
-function checkPreviewMetadata($file, $qurl)
+function checkPreviewMetadata($qurl)
 {
+    global $updebug;
+    global $storedpreviewmetadatafile;
+
+    if (! file_exists($storedpreviewmetadatafile)) {
+        //file_put_contents($storedpreviewmetadatafile, '{"1":{"url":"nil","title":"nil"}}');
+        file_put_contents($storedpreviewmetadatafile, "\n");
+        updmsg('<br/>FILE ZEROED OUT<br/>', $storedpreviewmetadatafile);
+    }
+
     $storedjson = [];
-    $storedjson = (array) json_decode(file_get_contents($file));
+    $result = file_get_contents($storedpreviewmetadatafile);
+    if (strlen($result) < 2) {
+        return false;
+    }
+    $storedjson = json_decode($result, true);
+    //updmsg('debug:storedjson:',$storedjson);
+    //updmsg('debug:qurl:',$qurl);
+    //$result=''; //clear
     //var_dump($storedjson);
-    foreach ($storedjson as $record) {
-        //var_dump($record);
-        if (isset($record->url) and (($record->url <=> $qurl) == 0)) {
+    foreach ($storedjson as $key=>$record) {
+        //updmsg("$key: ",$record['url']);
+        if (($record['url'] <=> $qurl) == 0) {
+            updmsg('MATCHED', true);
+
             return $record;
         }
     }
+
     return false;
 }
 
@@ -117,20 +230,34 @@ function getPreviewMetadata($qurl)
     curl_setopt($ch, CURLOPT_URL, $qurl);
     //return the transfer as a string
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    // bloomberg and the like will 'bark robot?' if you don't give 'em a user-agent
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.1.4322)');
+    // bloomberg and the like will 'bark' if you don't their redirects
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0) Gecko/20100101 Firefox/102.0)');
     // $contents contains the output string
     $contents = curl_exec($ch);
     if (! $contents) {
+        echo 'WARNING[getPreviewMetadata()]:  CURL failed - ';
+        var_dump($contents);
+
         return false;
     }
     // close curl resource to free up system resources
     curl_close($ch);
 
+    // if direct with querystring and debug
+    if (preg_match('/^http/', $_SERVER['QUERY_STRING'])) {
+        updmsg('CURL result: ', $contents);
+    }
     // put $contents into DOM structure
     $dom = new DOMDocument();
     @$dom->loadHTML($contents);
     $a = $dom->getElementsByTagName('meta');
+    if (! $a) {
+        echo 'ERROR[SF_getPreviewMetadata()]:  DOM failed - ';
+        var_dump($a);
+
+        return false;
+    }
 
     //gather meta attributes we want
     $image = $url = $title = $dec = '';
@@ -158,8 +285,13 @@ function getPreviewMetadata($qurl)
     }
 
     $json['url'] = $qurl;
+    $json['ogurl'] = $url;
     $json['title'] = $title;
     $json['image'] = $image;
+
+    if ((($json['title'] <=> '') == 0)) {
+        return false;
+    }
 
     return $json;
 }

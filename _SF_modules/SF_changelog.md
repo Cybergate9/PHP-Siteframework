@@ -6,9 +6,12 @@
 
 CHANGE HISTORY
 
+2.2     (29Jul2022)  bug fixes esp. urlpreviews.php, prepare for 2.2 git release
+
 2.1     (24Jul2022)  bug fixes esp. to shortcode processor, caching, and previews
                      cleanup code for new git release
                      implemented shortcodes for f:vb, f:img f:lbimg f:lbgallery
+                     et book added to extras
 
 2.03    (11Jul2022)  corrected refurl error causing multi-caching in urlmetadatapreview.php
                      moved requires in mainconfig.php
