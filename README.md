@@ -1,6 +1,8 @@
 # PHP Siteframework
 This is the 2022, refactored, improved, renamed, version of [this old gem](https://github.com/Cybergate9/phpSiteFramework)..
 
+Change log in [SF_changelog.md](https://github.com/Cybergate9/PHP-Siteframework/blob/master/_SF_modules/SF_changelog.md)
+
 ## Version 2022.xx.xx
 
 Version 2022.xx.xx adds:
