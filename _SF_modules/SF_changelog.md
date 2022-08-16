@@ -1,18 +1,21 @@
-
- @author Shaun Osborne (webmaster@cybergate9.net)
- @link https://github.com/Cybergate9/PHP-Siteframework
- @copyright Shaun Osborne, 2005-present
- @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
+---
+author: Shaun Osborne (webmaster@cybergate9.net)
+link: https://github.com/Cybergate9/PHP-Siteframework
+copyright: Shaun Osborne, 2005-present
+license: https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
+---
 
 CHANGE HISTORY
 
-2022.08.16      change to date based versioning
-                default header and footer cleanups
-                refactor urlpreviews to be more robust, fix issue with bloomberg curls 
-                added extra front matter directives 'summary' can control summary view lengths
-                added logic to generate better og:image refs (site, or refurl if any)
-                corrections to robots.txt
-                performance profiling undertaken (corrected stand-out inefficiencies)
+2022.08.16:
+*       change to date based versioning
+*       default header and footer cleanups
+*       refactor urlpreviews to be more robust, fix issue with bloomberg curls 
+*       added extra front matter directives 'summary' can control summary view lengths
+*       added logic to generate better og:image refs (site, or refurl if any)
+*       corrections to robots.txt
+*       performance profiling undertaken (corrected stand-out inefficiencies)
+*       put phpdocs back into docs/
 
 2.2     (29Jul2022)  bug fixes esp. urlpreviews.php, prepare for 2.2 git release
 
@@ -45,7 +48,7 @@ CHANGE HISTORY
                       installs is a pain
                       tidies up meta, header, footer and accessibility pages including accesskeys
                       SF_GeneratefromMarkdownURL() can do short summaries now as well as full output
-                      SF_GenerateTextOnlyHTML($url,$output=true) added check on file_get_contents to catch allow_url_fopen = false in servfer config
+                      SF_GenerateTextOnlyHTML($url,$output=true) added check on file_get_contents to catch allow_url_fopen = false in server config
                       
  1.7    (15Jun2022)  fixed wrong references in, and added meta via SF_commands values to dublin core defaultmetadata.html
                      added SF_GeneratefromMarkdownURL() and simpleyaml() as first implementation for Markdown content
