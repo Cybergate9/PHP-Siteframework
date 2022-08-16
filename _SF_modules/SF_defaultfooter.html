@@ -4,7 +4,14 @@
 echo '<div class="SF_content_footertext">';
 if(isset($SF_commands['category']))
   {
-    echo 'Categories: '.$SF_commands['category'].'<br/>';
+    echo 'Categories: ';
+    $cats = explode(',',$SF_commands['category']); 
+    foreach($cats as $cat){
+        echo '<a href="'.$SF_sitewebpath.'blog/index.php?category='.$cat.',desc">'.$cat.'</a> ';
+    }
+    
+
+    echo '<br/>';
   }
 if(isset($SF_commands['tags']))
   {
@@ -26,9 +33,10 @@ echo '</div>'."\n";
 
   <div class="SF_footerarea">
   <hr class="border"/>
-  <?php SF_GenerateBreadCrumbLine("you're at: "," > ",1); ?>
+  <?php SF_GenerateBreadCrumbLine("you're at: "," > "); ?>
   <p class="SF_footer_text">
-    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="<?php echo $SF_sitewebpath; ?>images/noderivs/by-nc-sa.png" width="80px"/></a> ( <?php echo $SF_sitetitle . ' running on <a href="https://github.com/Cybergate9/PHP-Siteframework"> PHP Siteframework</a> V'.$sfversion; ?>)
+    <?php echo $SF_sitetitle . ' (on <a href="https://github.com/Cybergate9/PHP-Siteframework"> PHP Siteframework</a> V'.$sfversion; ?>)<br/>
+    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="<?php echo $SF_sitewebpath; ?>images/noderivs/by-nc-sa.png" width="80px"/></a>
   </p>
   </div> <!-- end of SF_footerarea -->
 </body>

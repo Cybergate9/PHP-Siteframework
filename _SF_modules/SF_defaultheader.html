@@ -3,12 +3,16 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta charset="UTF-8">
-  <!-- meta name="viewport" content="width=device-width, initial-scale=1" -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="/favicon/favicon-32x32.png">
   <?php 
+    $SF_sitelogo = $SF_host.$SF_sitewebpath.'images/noderivs/sfcube.gif';
     include($SF_modulesdrivepath."SF_defaultmetadata.html");
     echo '<title>'.SF_GetPageTitle(GPT_SITEnPAGE).'</title>';
-    if($sfdebug >=2) {echo 'SF_Commands:'; var_dump($SF_commands);}
+    if($sfdebug >=2) {echo 'SF_commands:'; var_dump($SF_commands);}
+    if(!array_key_exists('metaimage',$SF_commands) or ($SF_commands['metaimage']<=>'') ==0){
+        $SF_commands['metaimage']=$SF_sitelogo;
+    }
     if(isset($SF_commands['lightbox']) or isset($SF_commands['venobox'])){ 
         echo "\n".'<link rel="stylesheet" href="'.$SF_moduleswebpath.'vendor/nicolafranchini/venobox/dist/venobox.min.css"/>'."\n";
         echo "\n".'<script src="'.$SF_moduleswebpath.'vendor/nicolafranchini/venobox/dist/venobox.min.js"></script>'."\n";
@@ -24,7 +28,7 @@
     echo '<link href="'.SF_GetDefaultCSSFilename().'" rel="stylesheet" title="SF_CSS" type="text/css"/>'."\n";
     echo '<link href="'.SF_GetCSSFilename().'" rel="stylesheet" title="SF_CSS" type="text/css"/>'."\n";
 
-    echo '<meta property="og:url" content="https://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'" >'."\n";
+    echo '<meta property="og:url" content="'.$SF_host.$_SERVER['PHP_SELF'].'" >'."\n";
     if(array_key_exists('title',$SF_commands)) { 
        echo '<meta property="og:title" content="'.$SF_commands['title'].'" />'."\n";
        echo '<meta property="og:description" content="'.$SF_commands['title'].'" />'."\n";
@@ -32,25 +36,29 @@
         echo '<meta property="og:title" content="Cybergate9.Net" />'."\n";
         echo '<meta property="og:description" content="Open the gate.. welcome to this dimension.." />'."\n";
     }
-    echo '<meta property="og:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_moduleswebpath.'images/noderivs/sflogo_sml.gif" />'."\n";
-    echo '<meta property="og:image:url" content="https://'.$_SERVER['HTTP_HOST'].$SF_moduleswebpath.'images/noderivs/sflogo_sml.gif" />'."\n";
-    echo '<meta property="twitter:image" content="https://'.$_SERVER['HTTP_HOST'].$SF_moduleswebpath.'images/noderivs/sflogo_sml.gif" />'."\n";
+    echo '<meta property="og:image" content="'.$SF_commands['metaimage'].'" />'."\n";
+    echo '<meta property="og:image:url" content="'.$SF_commands['metaimage'].'" />'."\n";
+    echo '<meta name="twitter:image:src" content="'.$SF_commands['metaimage'].'" />'."\n";
+    echo '<meta name="twitter:card" content="summary_large_image" />'."\n";
+    echo '<meta name="twitter:image:width" content="96" />'."\n";
+    echo '<meta name="twitter:image:height" content="96" />'."\n";
   ?>
+
 </head>
 <body class="bodygrid">
     <div id="SF_headerarea" class="SF_headerarea">
         <p class="SF_header_optionstext">
         <!-- defines the accessibility access keys on every page -->
-        <a href="<?php echo $_SERVER['PHP_SELF']."#SF_content";?>" accesskey="S" ><img src="<?php echo $SF_moduleswebpath;?>1x1transparent.gif" style="border: 0px;" alt="accesskey S - Skip to content"/></a>
-        <a href="<?php echo $SF_sitewebpath;?>index.html" accesskey="1" ><img src="<?php echo $SF_moduleswebpath;?>1x1transparent.gif" style="border: 0px;" alt="accesskey 1 - Home"/></a>
-        <a href="<?php echo $SF_sitewebpath;?>accessibility.html" accesskey="0"><img src="<?php echo $SF_moduleswebpath;?>1x1transparent.gif" style="border: 0px;" alt="accesskey 0 - Accessibility Information"/></a>
+        <a href="<?php echo $_SERVER['PHP_SELF']."#SF_content";?>" accesskey="S" ><img src="<?php echo $SF_sitewebpath;?>images/noderivs/1x1transparent.gif" style="border: 0px;" alt="accesskey S - Skip to content"/></a>
+        <a href="<?php echo $SF_sitewebpath;?>index.html" accesskey="1" ><img src="<?php echo $SF_sitewebpath;?>images/noderivs/1x1transparent.gif" style="border: 0px;" alt="accesskey 1 - Home"/></a>
+        <a href="<?php echo $SF_sitewebpath;?>accessibility.html" accesskey="0"><img src="<?php echo $SF_sitewebpath;?>images/noderivs/1x1transparent.gif" style="border: 0px;" alt="accesskey 0 - Accessibility Information"/></a>
         [<a href="<?php echo SF_GetPrintURL(); ?>">Print Version</a>]
         [<a href="<?php echo SF_GetTextOnlyURL() ?>">Text only</a>]
         [<a href="<?php echo $SF_sitewebpath;?>accessibility.html">Accessibility</a>]
         [<a href="<?php echo $SF_sitewebpath;?>sitemap.html" accesskey="3" >SiteMap</a>]
         </p>
         <div class="SF_header_heading">
-           <img src="<?php echo $SF_moduleswebpath;?>sflogo_sml.gif" alt="Logo" />
+           <img src="<?php echo $SF_sitelogo;?>" alt="Logo" />
            <h1><?php echo SF_GetPageTitle(GPT_SITE); ?><br/>
            <p>Open the gate.. welcome to this dimension..</p></h1>
         </div>

@@ -5,7 +5,9 @@
 * This is what 'kicks it all off' for any given page
 *
 * @author Shaun Osborne (webmaster@cybergate9.net)
+*
 * @link https://github.com/Cybergate9/PHP-Siteframework
+*
 * @copyright Shaun Osborne, 2005-present
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
 */
@@ -19,6 +21,7 @@
  * -1 = cannot be controlled via querystring
  * when called it creates a link to $defaultcssfile for the browser so
  * some CSS stuff is likely to be affected when this is turned on
+ *
  * @global integer $sfdebug
  */
 $sfdebug = 0;
@@ -147,12 +150,21 @@ if (isset($dirconfigarray['contentpp']) and (('yes' <=> $dirconfigarray['content
             $SF_commands[$key] = $value;
         }
     }
+    if (isset($SF_commands['refurl'])) {
+        if ($ret = checkPreviewMetadata($SF_commands['refurl'])) {
+            if (($ret['image'] <=> '') != 0) {
+                $SF_commands['metaimage'] = $ret['image'];
+            }
+        }
+    }
     $matches = $parts = $yaml = ''; // release memory
 }
 
 /* if we got sf_function=nosf or a <!-- SF_Command:nosf:anything --> then just output contents, end the cache, and apexit()*/
 if (isset($SF_commands['no_sf']) or isset($SF_qc['nosf'])) {
-    if ($sfdebug >= 1) {echo 'NO FRAMEWORK';}
+    if ($sfdebug >= 1) {
+        echo 'NO FRAMEWORK';
+    }
     echo contents;
     /* end caching capture if its turned on */
     if ($SF_caching == true) {

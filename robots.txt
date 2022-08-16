@@ -1,0 +1,17 @@
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: Twitterbot
+Disallow:
+
+User-agent: *
+Disallow: /
+Allow: /*.md$
+Allow: /*.html$
+Allow: /*.php
+Allow: /*.jpg
+Allow: /*.gif
+Allow: /*.png
+
+
+

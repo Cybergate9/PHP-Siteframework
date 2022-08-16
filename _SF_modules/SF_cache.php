@@ -6,9 +6,12 @@
  * if $SF_caching=false then all caching turned off.
  *
  * @author Shaun Osborne (webmaster@cybergate9.net)
+ *
  * @link https://github.com/Cybergate9/PHP-Siteframework
+ *
  * @copyright Shaun Osborne, 2005-present
  * @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
+ *
  * @see https://dzone.com/articles/how-to-create-a-simple-and-efficient-php-cache
  */
 require_once 'SF_localconfig.php';
@@ -39,6 +42,7 @@ function SF_cachestart()
         if (preg_match($SF_cachequerystringexcluderegex, $_SERVER['QUERY_STRING'])) {
             // discard
             $SF_caching = false; //turn caching off for this page
+
             return 'notcaching(excluderegex)';
         } else {
             $url = $url.$_SERVER['QUERY_STRING'];
@@ -54,7 +58,7 @@ function SF_cachestart()
     $SF_cachefile = $SF_cachedir.'cached-'.preg_replace("/\?/", '', $file).'.html'; // original cache file value, '?'s removed
     if ($SF_cachehashlevel > 0) { /* if we're hashing */
         $SF_hash = hash('md5', $SF_cachefile);
-        $SF_cachefile = $SF_cachedir.substr($SF_hash, 0, $SF_cachehashlevel)."/".'cached-'.preg_replace("/\?/", '', $file).'.html'; //hashed directory added cachefile value
+        $SF_cachefile = $SF_cachedir.substr($SF_hash, 0, $SF_cachehashlevel).'/'.'cached-'.preg_replace("/\?/", '', $file).'.html'; //hashed directory added cachefile value
     }
     //make the directory is it doesn't exist (base or hash subdirs)
     $dirname = dirname($SF_cachefile);
@@ -73,6 +77,7 @@ function SF_cachestart()
         apexit();
     }
     ob_start(); // Start the output buffer for this page
+
     return 'caching';
 }
 

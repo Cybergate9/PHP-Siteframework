@@ -8,19 +8,22 @@
 *
 * @copyright Shaun Osborne, 2005-present
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
+*
+* @version as per $sfversion in SF_mainconfig.php (below)
 */
 
 /**
  * Siteframework (as a whole) version number
  */
-$sfversion = '2.2';
-$sfversiondate = '(2022-07-29)';
+$sfversion = '2022.08.16';
 
 error_reporting(1); /* only report errors */
 date_default_timezone_set('Australia/Adelaide');
 
 /****************************************************************************
 Global derived configuration values - shouldn't need to change these */
+$SF_protocol = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+$SF_host = $SF_protocol.$_SERVER['HTTP_HOST'];
 $SF_modulesdirname = '_SF_modules/';
 $SF_moduleswebpath = $SF_sitewebpath.$SF_modulesdirname;
 $SF_modulesdrivepath = $SF_documentroot.$SF_moduleswebpath;

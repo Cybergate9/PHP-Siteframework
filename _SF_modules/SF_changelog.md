@@ -6,6 +6,14 @@
 
 CHANGE HISTORY
 
+2022.08.16      change to date based versioning
+                default header and footer cleanups
+                refactor urlpreviews to be more robust, fix issue with bloomberg curls 
+                added extra front matter directives 'summary' can control summary view lengths
+                added logic to generate better og:image refs (site, or refurl if any)
+                corrections to robots.txt
+                performance profiling undertaken (corrected stand-out inefficiencies)
+
 2.2     (29Jul2022)  bug fixes esp. urlpreviews.php, prepare for 2.2 git release
 
 2.1     (24Jul2022)  bug fixes esp. to shortcode processor, caching, and previews

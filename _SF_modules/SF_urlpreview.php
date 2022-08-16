@@ -6,7 +6,6 @@ if (isset($_SERVER['QUERY_STRING']) and preg_match('/^http/', $_SERVER['QUERY_ST
     $updebug = 1;
     include 'SF_localconfig.php';
     include 'SF_mainconfig.php';
-    //global $SF_sitedrivepath;
     $inurl = $_SERVER['QUERY_STRING'];
     updmsg('(Direct) Looking up: '.$inurl.'<br/>', false);
     $json = '';
@@ -17,16 +16,17 @@ if (isset($_SERVER['QUERY_STRING']) and preg_match('/^http/', $_SERVER['QUERY_ST
         $json = getPreviewMetadata($inurl);
         updmsg('get result: ', $json);
         $returnedjson = $json;
-    } else {
+    } else { //we got it out of datafile
         $returnedjson = (array) $result;
     }
-    if ($json) {
+    if ($json) { // if this is newly looked up then store in datafile
         $result = storePreviewMetadata($json);
         updmsg('store result: ', $result);
     } else {
         updmsg('store result: No store ', false);
         //return false;
     }
+    exit(); /* we've come via direct call so now just force exit() */
 }
 
 function updmsg($string, $value)
@@ -56,10 +56,7 @@ function SF_GenerateMetadataPreview($inurl, $output = true)
     global $updebug;
     global $storedpreviewmetadatafile;
     global $sfdebug;
-
-    /*if (! file_exists($storedpreviewmetadatafile)) {
-        file_put_contents($storedpreviewmetadatafile, "\n");
-    }*/
+    global $SF_commands;
 
     updmsg('Looking up: '.$inurl.'<br/>', false);
     $json = '';
@@ -168,21 +165,6 @@ function storePreviewMetadata($json)
     }
 
     return file_put_contents($storedpreviewmetadatafile, json_encode($storedjson));
-
-    /*$hdl = fopen($storedpreviewmetadatafile,"a+");
-    if($hdl === false){
-        return false;
-    }
-    $res = fwrite($hdl, json_encode($storedjson));
-    if($res === false){
-        return false;
-    }
-    $res = fclose($hdl);
-    if($res === false){
-        return false;
-    }
-*/
-    //return true;
 }
 
 function checkPreviewMetadata($qurl)
@@ -195,17 +177,13 @@ function checkPreviewMetadata($qurl)
         file_put_contents($storedpreviewmetadatafile, "\n");
         updmsg('<br/>FILE ZEROED OUT<br/>', $storedpreviewmetadatafile);
     }
-
     $storedjson = [];
     $result = file_get_contents($storedpreviewmetadatafile);
     if (strlen($result) < 2) {
         return false;
     }
+
     $storedjson = json_decode($result, true);
-    //updmsg('debug:storedjson:',$storedjson);
-    //updmsg('debug:qurl:',$qurl);
-    //$result=''; //clear
-    //var_dump($storedjson);
     foreach ($storedjson as $key=>$record) {
         //updmsg("$key: ",$record['url']);
         if (($record['url'] <=> $qurl) == 0) {
@@ -220,19 +198,38 @@ function checkPreviewMetadata($qurl)
 
 function getPreviewMetadata($qurl)
 {
+    global $SF_sitewebpath;
+    global $SF_cachedir;
+
     if (! cURLcheckBasicFunctions()) {
         echo 'UNAVAILABLE: cURL Basic Functions';
         exit(0);
     }
+
+    /*if(preg_match("/bloomberg/",$qurl)){  // this is a kludge because bloomberg is constantly returning errors
+        $json['url'] = $qurl;
+        $json['ogurl'] = $qurl;
+        $json['title'] = "Bloomberg Article";
+        $json['image'] = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+        $json['image'] .= $_SERVER['HTTP_HOST'].$SF_sitewebpath.'images/noderivs/bbrepl.png';
+        return $json;
+    }*/
+
     // create curl resource
     $ch = curl_init();
     // set url
     curl_setopt($ch, CURLOPT_URL, $qurl);
+
     //return the transfer as a string
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     // bloomberg and the like will 'bark' if you don't their redirects
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0) Gecko/20100101 Firefox/102.0)');
+    //curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    // allow for cookies
+    $cookie = $SF_cachedir.'cookie.txt';
+    curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie);
+    curl_setopt($ch, CURLOPT_COOKIEJAR, $cookie);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:103.0) Gecko/20100101 Firefox/103.0');
     // $contents contains the output string
     $contents = curl_exec($ch);
     if (! $contents) {
@@ -246,6 +243,7 @@ function getPreviewMetadata($qurl)
 
     // if direct with querystring and debug
     if (preg_match('/^http/', $_SERVER['QUERY_STRING'])) {
+        updmsg('cookie contents: ', $cookie);
         updmsg('CURL result: ', $contents);
     }
     // put $contents into DOM structure

@@ -19,7 +19,7 @@
 * @copyright Shaun Osborne, 2005-present
 * @license https://github.com/Cybergate9/PHP-Siteframework/blob/master/LICENSE
 *
-* @version 2.2 (2022-07-29)
+* @version as per $sfversion in SF_mainconfig.php
 */
 
 // bring in global paths and default values for variables, order is important
@@ -933,7 +933,8 @@ function SF_GeneratefromMarkdownURL($url, $title = true, $summaryonly = false, /
     // cut up *.md file into two parts based on front matter separators '---'
     $parts = preg_split('/[\n\r]*[-]{3}[\n\r]/', $contents, 3, PREG_SPLIT_NO_EMPTY);
 
-    $SF_commands['refurl'] = '';
+    unset($SF_commands['refurl']);
+    unset($SF_commands['summary']);
     if (count($parts) > 1) { // if we have front matter, process into $SF_commands
         $yaml = simpleyaml(explode("\n", $parts[0]));
         foreach ($yaml as $key=>$value) {
@@ -944,6 +945,9 @@ function SF_GeneratefromMarkdownURL($url, $title = true, $summaryonly = false, /
         $md = $parts[0];
     }
     //print_r($SF_commands);
+    if (isset($SF_commands['summary']) and intval($SF_commands['summary']) < $summaryonly) {
+        $summaryonly = intval($SF_commands['summary']);
+    }
     $contents = $parts = '';  // free memory
     if (isset($SF_commands['shortcodes']) and ! ((($SF_commands['shortcodes'] <=> 'off') == 0) or (($SF_commands['shortcodes'] <=> 'no') == 0))) {
         $md = SF_ShortCodeProcessor($md);
@@ -980,7 +984,8 @@ function SF_GeneratefromMarkdownURL($url, $title = true, $summaryonly = false, /
         if ($SF_commands['refurl']) {
             $output = $output."\n".'<div class="card-urlpreview">';
             if (($res = SF_GenerateMetadataPreview($SF_commands['refurl'], false)) == false) {
-                $output = $output.'<p style="color: #FF0000;">Error:[Preview Meta lookup failed]</p>';
+                $urlparts = parse_url($SF_commands['refurl']);
+                $output = $output.'<p>Error:[Preview lookup on '.$urlparts['host'].' failed]</p>';
                 $output = $output.'<p><a href="'.$SF_moduleswebpath.'/SF_urlpreview.php?'.$SF_commands['refurl'].'">[Check]</a><p>';
             } else {
                 $output = $output.'<p><img src="'.$res['image'].'" width="200"/></p>';
@@ -1079,11 +1084,8 @@ function scf_img($inarray)
     if (! isset($inarray['dir'])) {
         $inarray['dir'] = 'images/web500';
     }
-    if (! isset($inarray['dirbig'])) {
-        $inarray['dirbig'] = 'images/web2000';
-    }
-    if (! isset($inarray['width'])) {
-        $inarray['width'] = '';
+    if (! isset($inarray['bigdir'])) {
+        $inarray['bigdir'] = 'images/web2000';
     }
     if (! isset($inarray['caption'])) {
         $inarray['caption'] = '';
@@ -1093,8 +1095,12 @@ function scf_img($inarray)
     }
     $convertto = '';
     if (isset($inarray['src'])) {
-        $convertto = $convertto.'<figure><a href="'.$SF_sitewebpath.$inarray['dirbig'].'/'.$inarray['src'].'" title="'.$inarray['caption'].'">';
-        $convertto = $convertto.'<img src="'.$SF_sitewebpath.$inarray['dir'].'/'.$inarray['src'].'" width="'.$inarray['width'].'" /></a>';
+        $convertto = $convertto.'<figure><a href="'.$SF_sitewebpath.$inarray['bigdir'].'/'.$inarray['src'].'" title="'.$inarray['caption'].'">';
+        $convertto = $convertto.'<img src="'.$SF_sitewebpath.$inarray['dir'].'/'.$inarray['src'].'" ';
+        if (isset($inarray['width'])) {
+            $convertto = $convertto.' width="'.$inarray['width'].'"';
+        }
+        $convertto = $convertto.' /></a>';
         $convertto = $convertto.'<figcaption>'.$inarray['caption'].'</figcaption></figure>';
     }
 
@@ -1105,6 +1111,11 @@ function scf_lbimg($inarray)
 {
     global $SF_sitewebpath;
     $convertto = '';
+
+    if (! isset($inarray['dir'])) {
+        $inarray['dir'] = 'images/web500';
+    }
+
     if (isset($inarray['src'])) {
         $imgs = explode(',', $inarray['src']);
         $caps = explode(',', $inarray['caption']);
@@ -1118,7 +1129,7 @@ function scf_lbimg($inarray)
             } else {
                 $exifstring = '';
             }
-            $convertto = $convertto.'<div class="lbg-image"><a href="'.$SF_sitewebpath.'images/web2000/'.$img.'" class="venobox-lbgall" data-gall="gallery-'.count($imgs) + count($caps).'" title="'.$caps[$key].'<br/>'.$exifstring.'"><img src="'.$SF_sitewebpath.'images/web500/'.$img.'" />';
+            $convertto = $convertto.'<div class="lbg-image"><a href="'.$SF_sitewebpath.'images/web2000/'.$img.'" class="venobox-lbgall" data-gall="gallery-'.count($imgs) + count($caps).'" title="'.$caps[$key].'<br/>'.$exifstring.'"><img src="'.$SF_sitewebpath.$inarray['dir'].'/'.$img.'" />';
             $convertto = $convertto.'<div class="lbg-caption">'.$caps[$key].'</div>'."\n";
             $convertto = $convertto.'</a></div>'."\n";
         }
@@ -1153,7 +1164,7 @@ function scf_lbgallery($inarray)
             }
             $convertto = $convertto.'<div class="lbg-image"><a href="'.$SF_sitewebpath.'images/web2000/'.$img.'" class="venobox-lbgall" data-gall="gallery-'.count($imgs) + count($caps).'" title="'.$caps[$key].'<br/>'.$exifstring.'">'."\n";
             $convertto = $convertto.'<img src="'.$SF_sitewebpath.'images/web500/'.$img.'"/>'."\n";
-            $convertto = $convertto.'<div class="lbg-image">'.$caps[$key].'</div>'."\n";
+            $convertto = $convertto.'<div class="lbg-caption">'.$caps[$key].'</div>'."\n";
             $convertto = $convertto.'</a></div>'."\n";
         }
 
@@ -1299,6 +1310,15 @@ function SF_GetPageModifiedDate($filename = '', $dateformat = 'jMY h:i')
     }
 
     return date($dateformat, filemtime($filename));
+}
+
+/**
+ * Get cureent year as string from system time
+ */
+function SF_GetCurrentYear()
+/****************************************************************************/
+{
+    return date('Y', time());
 }
 
 /**
