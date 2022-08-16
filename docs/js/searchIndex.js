@@ -171,6 +171,11 @@ Search.appendIndex(
             "summary": "Get\u0020filesystem\u0020modified\u0020date\u0020for\u0020filename",
             "url": "namespaces/default.html#function_SF_GetPageModifiedDate"
         },                {
+            "fqsen": "\\SF_GetCurrentYear\u0028\u0029",
+            "name": "SF_GetCurrentYear",
+            "summary": "Get\u0020cureent\u0020year\u0020as\u0020string\u0020from\u0020system\u0020time",
+            "url": "namespaces/default.html#function_SF_GetCurrentYear"
+        },                {
             "fqsen": "\\SF_GetTextOnlyURL\u0028\u0029",
             "name": "SF_GetTextOnlyURL",
             "summary": "determine\u0020separator\u0020required\u0020and\u0020add\u0020text\u002Donly\u0020querystring\u0020to\u0020end\u0020of\u0020url",
