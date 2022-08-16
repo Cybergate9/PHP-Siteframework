@@ -1,9 +1,9 @@
 # PHP Siteframework
-This is the 2022, version 2, renamed, version of [this old gem](https://github.com/Cybergate9/phpSiteFramework)..
+This is the 2022, refactored, improved, renamed, version of [this old gem](https://github.com/Cybergate9/phpSiteFramework)..
 
-## Version 2
+## Version 2022.xx.xx
 
-Version 2 adds:
+Version 2022.xx.xx adds:
 
 * mainconfig and (newly created) localconfig separate some concerns making it easier to update mainconfig on remote host
 
